@@ -1205,19 +1205,19 @@ function getModuleExamQuestions(title) {
   if (title === "Proceso Comercial") {
     return [
       {
-        question: "1. ¿Cual es el objetivo central del proceso comercial?",
+        question: "1. ¿Cual es el objetivo central del proceso comercial de KONFI?",
         answer: "b",
         items: [
           { value: "a", text: "Ejecutar ventas sin seguimiento ni coordinacion interna." },
-          { value: "b", text: "Gestionar oportunidades desde prospectos hasta fidelizacion de clientes." },
+          { value: "b", text: "Gestionar oportunidades desde prospectos hasta fidelizacion, con documentacion y coordinacion interna." },
           { value: "c", text: "Concentrarse solo en el cierre de ventas." }
         ]
       },
       {
-        question: "2. ¿Que aporta la prospeccion al crecimiento comercial?",
+        question: "2. ¿Que debe lograr una buena prospeccion?",
         answer: "a",
         items: [
-          { value: "a", text: "Genera nuevas oportunidades y alimenta el embudo comercial." },
+          { value: "a", text: "Identificar, segmentar y calificar prospectos con potencial real de compra." },
           { value: "b", text: "Reduce la necesidad de buscar nuevos clientes." },
           { value: "c", text: "Elimina la segmentacion de mercado." }
         ]
@@ -1236,7 +1236,7 @@ function getModuleExamQuestions(title) {
         answer: "b",
         items: [
           { value: "a", text: "Porque permite presentar cualquier solucion disponible." },
-          { value: "b", text: "Porque permite construir propuestas alineadas al cliente." },
+          { value: "b", text: "Porque permite comprender necesidades funcionales, esteticas, logisticas y relacionales." },
           { value: "c", text: "Porque sustituye la postventa." }
         ]
       },
@@ -1271,7 +1271,7 @@ function getModuleExamQuestions(title) {
         question: "8. ¿Que evita un buen compilado de informacion?",
         answer: "a",
         items: [
-          { value: "a", text: "Errores operativos, reprocesos y mala coordinacion interna." },
+          { value: "a", text: "Errores operativos, reprocesos y mala transferencia de datos hacia produccion." },
           { value: "b", text: "La comunicacion entre areas." },
           { value: "c", text: "La satisfaccion del cliente." }
         ]
@@ -1290,7 +1290,7 @@ function getModuleExamQuestions(title) {
         answer: "b",
         items: [
           { value: "a", text: "Supervisar solo vendedores y no el proceso completo." },
-          { value: "b", text: "Dirigir, supervisar, coordinar, medir y mejorar cada etapa." },
+          { value: "b", text: "Dirigir, supervisar, medir y mejorar cada etapa desde prospeccion hasta postventa." },
           { value: "c", text: "Delegar todo el seguimiento sin indicadores." }
         ]
       }
