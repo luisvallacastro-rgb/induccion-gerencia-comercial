@@ -1,0 +1,1998 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Induccion a Gerencia Comercial</title>
+  <style>
+    :root {
+      --ink: #152126;
+      --muted: #5c6a70;
+      --line: #d9e2e0;
+      --paper: #f6f8f6;
+      --white: #ffffff;
+      --teal: #047a73;
+      --green: #71a03a;
+      --gold: #d39b2d;
+      --coral: #cc5d4f;
+      --navy: #203d52;
+      --shadow: 0 16px 40px rgba(21, 33, 38, .12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(4, 122, 115, .06), transparent 34%),
+        linear-gradient(315deg, rgba(211, 155, 45, .08), transparent 28%),
+        var(--paper);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+      height: 100vh;
+      width: 100%;
+      position: fixed;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 10px clamp(16px, 3vw, 40px);
+      color: var(--white);
+      background: rgba(21, 33, 38, .92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      min-width: 0;
+      overflow-x: auto;
+    }
+
+    .topbar-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .nav a,
+    .nav button,
+    .control-btn {
+      min-height: 38px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.07);
+      text-decoration: none;
+      padding: 8px 12px;
+      white-space: nowrap;
+    }
+
+    .control-btn.reset {
+      color: #ffe9e6;
+      border-color: rgba(204, 93, 79, .42);
+      background: rgba(204, 93, 79, .18);
+    }
+
+    .nav a:hover,
+    .nav button:hover,
+    .control-btn:hover {
+      background: rgba(255,255,255,.16);
+    }
+
+    .control-btn.reset:hover {
+      background: rgba(204, 93, 79, .3);
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: end;
+      position: relative;
+      isolation: isolate;
+      color: var(--white);
+      background-image:
+        linear-gradient(90deg, rgba(13, 32, 38, .9), rgba(13, 32, 38, .62) 43%, rgba(13, 32, 38, .18) 78%),
+        url("assets/induccion-comercial-hero.png");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 68px 68px;
+      mask-image: linear-gradient(90deg, rgba(0,0,0,.6), transparent 74%);
+      animation: gridDrift 18s linear infinite;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% 0;
+      height: 38%;
+      z-index: -1;
+      background: linear-gradient(90deg, transparent, rgba(243, 197, 101, .2), transparent);
+      transform: translateX(-45%) skewX(-14deg);
+      animation: lightSweep 8s ease-in-out infinite;
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 88px 0 44px;
+      animation: heroRise .9s ease-out both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .84rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #bde4df;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 999px;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 14px 0 18px;
+      font-size: clamp(2.4rem, 7vw, 5.9rem);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 0 0 28px;
+      color: rgba(255,255,255,.88);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary,
+    .secondary,
+    .video-trigger {
+      min-height: 46px;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .primary {
+      color: var(--ink);
+      background: #f3c565;
+      box-shadow: 0 12px 28px rgba(211, 155, 45, .28);
+    }
+
+    .secondary {
+      color: var(--white);
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.24);
+    }
+
+    .video-trigger {
+      color: var(--white);
+      background: rgba(4, 122, 115, .82);
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: 0 14px 34px rgba(4, 122, 115, .25);
+    }
+
+    .play-dot {
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: rgba(255,255,255,.2);
+    }
+
+    .play-dot::before {
+      content: "";
+      width: 0;
+      height: 0;
+      margin-left: 2px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 9px solid currentColor;
+    }
+
+    .primary:hover,
+    .secondary:hover,
+    .video-trigger:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-dashboard {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(140px, 1fr));
+      gap: 10px;
+      width: min(620px, 100%);
+      margin-top: 34px;
+    }
+
+    .hero-metric {
+      position: relative;
+      overflow: hidden;
+      min-height: 96px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.11);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      animation: metricFloat 5.5s ease-in-out infinite;
+    }
+
+    .hero-metric:nth-child(2) {
+      animation-delay: .35s;
+    }
+
+    .hero-metric:nth-child(3) {
+      animation-delay: .7s;
+    }
+
+    .hero-metric::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 12px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), var(--green), var(--teal));
+      transform-origin: left;
+      animation: metricBar 3.8s ease-in-out infinite;
+    }
+
+    .hero-metric strong {
+      display: block;
+      font-size: 1.65rem;
+      line-height: 1;
+    }
+
+    .hero-metric > span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255,255,255,.78);
+      font-size: .9rem;
+    }
+
+    .session-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(140px, 1fr));
+      gap: 1px;
+      width: min(1180px, calc(100% - 32px));
+      margin: -28px auto 0;
+      position: relative;
+      z-index: 5;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .session-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+      transform: translateX(-100%);
+      animation: cardSheen 6s ease-in-out infinite;
+    }
+
+    .time-block {
+      background: var(--white);
+      padding: 16px;
+      min-height: 112px;
+      transition: transform .28s ease, background .28s ease;
+    }
+
+    .time-block:hover {
+      transform: translateY(-4px);
+      background: #fbfffd;
+    }
+
+    .time-block strong {
+      display: block;
+      font-size: 1.45rem;
+      color: var(--teal);
+    }
+
+    .time-block span {
+      display: block;
+      color: var(--muted);
+      font-size: .92rem;
+      margin-top: 6px;
+    }
+
+    main {
+      padding-bottom: 70px;
+    }
+
+    section {
+      width: min(1180px, calc(100% - 32px));
+      margin: 64px auto 0;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3.4vw, 3rem);
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 18px;
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .07);
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .module-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.7), transparent 38%);
+      opacity: 0;
+      transition: opacity .28s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(4, 122, 115, .45);
+      box-shadow: 0 22px 42px rgba(21, 33, 38, .13);
+    }
+
+    .module-card:hover::after {
+      opacity: 1;
+    }
+
+    .module-card.active {
+      border-color: var(--teal);
+      outline: 3px solid rgba(4, 122, 115, .16);
+    }
+
+    .module-num {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--white);
+      background: var(--navy);
+      font-weight: 900;
+    }
+
+    .module-card:nth-child(2) .module-num { background: var(--teal); }
+    .module-card:nth-child(3) .module-num { background: var(--green); }
+    .module-card:nth-child(4) .module-num { background: var(--coral); }
+
+    .module-card h3 {
+      margin: 18px 0 8px;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .module-card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .module-status {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--gold);
+      font-size: .82rem;
+      font-weight: 950;
+      box-shadow: 0 10px 20px rgba(21,33,38,.1);
+      animation: rise .54s ease both;
+    }
+
+    .module-status.failed {
+      color: var(--white);
+      background: #b44a3f;
+    }
+
+    .module-card .module-link {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #eef5f3;
+      color: var(--teal);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .06);
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .compare-column {
+      padding: 22px;
+    }
+
+    .compare-column:first-child {
+      border-right: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    .compare-column h3 {
+      margin: 0 0 14px;
+    }
+
+    .pill-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill-list li {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #eef5f3;
+      color: #314348;
+    }
+
+    .process-wrap {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stage-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .stage-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 12px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .stage-btn.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--white);
+    }
+
+    .stage-detail {
+      min-height: 470px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(20px, 3vw, 34px);
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stage-detail::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--teal), var(--green), var(--gold), var(--coral));
+      background-size: 220% 100%;
+      animation: flowLine 4.5s linear infinite;
+    }
+
+    .stage-detail h3 {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+    }
+
+    .stage-detail p {
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .stage-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fbfcfb;
+    }
+
+    .mini-card strong {
+      display: block;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .mini-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .activity-grid,
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .activity,
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 18px;
+      min-height: 190px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .activity:hover,
+    .kpi:hover {
+      transform: translateY(-6px);
+      border-color: rgba(4, 122, 115, .36);
+      box-shadow: 0 20px 40px rgba(21, 33, 38, .11);
+    }
+
+    .activity::before,
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--teal), var(--gold));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .28s ease;
+    }
+
+    .activity:hover::before,
+    .kpi:hover::before {
+      transform: scaleY(1);
+    }
+
+    .activity h3,
+    .kpi h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    .activity p,
+    .kpi p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .activity footer,
+    .kpi footer {
+      margin-top: 18px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #f4dfad;
+      font-size: .84rem;
+      font-weight: 800;
+    }
+
+    .kpi-value {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value output {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--teal);
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--teal);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .checklist label {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 12px;
+    }
+
+    .checklist input {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--teal);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #eef5f3;
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: #dce7e4;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--green), var(--gold));
+    }
+
+    .presenting .topbar {
+      transform: translateY(-100%);
+      transition: transform .25s ease;
+    }
+
+    .presenting section {
+      margin-top: 44px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%) translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(21,33,38,.94);
+      transition: .22s ease;
+      z-index: 40;
+      max-width: calc(100vw - 32px);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(9, 21, 25, .76);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .video-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-dialog {
+      width: min(980px, 100%);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b171b;
+      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      transform: translateY(18px) scale(.98);
+      transition: transform .25s ease;
+    }
+
+    .video-modal.open .video-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .video-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 14px;
+      color: var(--white);
+      background: #152126;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .video-header strong {
+      font-size: 1rem;
+    }
+
+    .video-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.08);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .video-dialog video {
+      display: block;
+      width: 100%;
+      max-height: min(72vh, 620px);
+      background: #000;
+    }
+
+    .agenda-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 58;
+      display: grid;
+      place-items: center;
+      padding: clamp(10px, 2vw, 24px);
+      background:
+        radial-gradient(circle at 20% 18%, rgba(243, 197, 101, .18), transparent 28%),
+        radial-gradient(circle at 82% 22%, rgba(4, 122, 115, .24), transparent 30%),
+        rgba(9, 21, 25, .78);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+      overflow: hidden;
+    }
+
+    .agenda-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .agenda-dialog {
+      width: min(1160px, calc(100vw - 28px));
+      height: min(92dvh, 820px);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      color: var(--white);
+      background: rgba(18, 34, 39, .96);
+      box-shadow: 0 30px 90px rgba(0,0,0,.38);
+      transform: translateY(22px) scale(.98);
+      transition: transform .28s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .agenda-modal.open .agenda-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .agenda-header {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      padding: clamp(18px, 3vw, 30px);
+      background:
+        linear-gradient(135deg, rgba(4, 122, 115, .9), rgba(32, 61, 82, .92)),
+        linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      flex: 0 0 auto;
+    }
+
+    .agenda-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--green), var(--teal), var(--coral));
+      background-size: 220% 100%;
+      animation: flowLine 4.2s linear infinite;
+    }
+
+    .agenda-header h2 {
+      margin: 8px 0 8px;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .agenda-header p {
+      max-width: 760px;
+      margin: 0;
+      color: rgba(255,255,255,.82);
+    }
+
+    .agenda-close {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.1);
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .agenda-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: clamp(18px, 3vw, 28px);
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+    }
+
+    .agenda-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .agenda-summary div,
+    .agenda-module {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(8px);
+    }
+
+    .agenda-summary div {
+      padding: 14px;
+    }
+
+    .agenda-summary strong {
+      display: block;
+      font-size: 1.35rem;
+      color: #f3c565;
+    }
+
+    .agenda-summary span {
+      color: rgba(255,255,255,.74);
+      font-size: .92rem;
+    }
+
+    .agenda-modules {
+      display: grid;
+      gap: 12px;
+    }
+
+    .agenda-module {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      transform-origin: center;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .agenda-modal.open .agenda-module {
+      animation: agendaItemIn .48s ease forwards;
+      animation-delay: var(--agenda-delay, 0ms);
+    }
+
+    .agenda-module::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--gold), var(--teal));
+    }
+
+    .agenda-time {
+      display: grid;
+      place-items: center;
+      align-self: start;
+      min-height: 76px;
+      border-radius: 8px;
+      color: #102026;
+      background: #f3c565;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    .agenda-time span {
+      display: block;
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .agenda-module h3 {
+      margin: 0 0 8px;
+      font-size: 1.16rem;
+    }
+
+    .agenda-module p {
+      margin: 0 0 10px;
+      color: rgba(255,255,255,.76);
+    }
+
+    .agenda-module ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.74);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .agenda-module:hover {
+        z-index: 4;
+        border-color: rgba(243, 197, 101, .46);
+        background: rgba(255,255,255,.11);
+        box-shadow: 0 24px 56px rgba(0,0,0,.26);
+        transform: translateY(-3px) scale(1.035);
+      }
+
+      .agenda-module:hover .agenda-time {
+        box-shadow: 0 12px 26px rgba(243, 197, 101, .22);
+      }
+    }
+
+    @keyframes agendaItemIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroRise {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes gridDrift {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 136px 68px;
+      }
+    }
+
+    @keyframes lightSweep {
+      0%, 48% {
+        transform: translateX(-55%) skewX(-14deg);
+        opacity: 0;
+      }
+      62% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(55%) skewX(-14deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes metricFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes metricBar {
+      0%, 100% {
+        transform: scaleX(.36);
+      }
+      50% {
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes cardSheen {
+      0%, 45% {
+        transform: translateX(-100%);
+      }
+      70%, 100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes flowLine {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 220% 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar {
+        grid-template-columns: 1fr auto;
+      }
+
+      .brand {
+        grid-column: 1;
+      }
+
+      .nav {
+        grid-column: 1 / -1;
+        justify-content: start;
+        order: 3;
+      }
+
+      .session-strip,
+      .module-grid,
+      .activity-grid,
+      .kpi-grid,
+      .hero-dashboard,
+      .compare,
+      .process-wrap,
+      .stage-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-column:first-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        min-height: 82vh;
+        background-position: 62% center;
+      }
+
+      .hero-actions {
+        display: grid;
+      }
+
+      .primary,
+      .secondary,
+      .video-trigger {
+        justify-content: center;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 8px;
+      }
+
+      .agenda-modal {
+        padding: 8px;
+        place-items: stretch;
+      }
+
+      .agenda-dialog {
+        width: 100%;
+        height: calc(100dvh - 16px);
+      }
+
+      .agenda-header {
+        gap: 10px;
+        padding: 18px 16px;
+      }
+
+      .agenda-header h2 {
+        max-width: 250px;
+        margin: 7px 0;
+        font-size: 1.72rem;
+        line-height: 1.02;
+      }
+
+      .agenda-header p {
+        max-width: 250px;
+        font-size: .9rem;
+        line-height: 1.35;
+      }
+
+      .agenda-close {
+        width: 40px;
+        height: 40px;
+      }
+
+      .agenda-body {
+        padding: 14px;
+      }
+
+      .agenda-summary {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .agenda-summary div {
+        padding: 11px 12px;
+      }
+
+      .agenda-summary strong {
+        font-size: 1.1rem;
+      }
+
+      .agenda-module {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 14px 14px 14px 16px;
+      }
+
+      .agenda-time {
+        width: 76px;
+        min-height: 50px;
+      }
+
+      .agenda-module h3 {
+        font-size: 1.05rem;
+        line-height: 1.24;
+      }
+
+      .agenda-module p,
+      .agenda-module li {
+        font-size: .94rem;
+      }
+
+      .time-block {
+        min-height: auto;
+      }
+
+    }
+
+    @media print {
+      .topbar,
+      .hero-actions,
+      .module-card .module-link,
+      .stage-list,
+      .toast {
+        display: none;
+      }
+
+      .hero {
+        min-height: 360px;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Gerencia Comercial</div>
+    <nav class="nav" aria-label="Navegacion principal">
+      <button id="openAgendaNav" type="button">Agenda</button>
+      <a href="#modulos">Modulos</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#indicadores">KPIs</a>
+      <a href="#cierre">Cierre</a>
+    </nav>
+    <div class="topbar-controls">
+      <button class="control-btn reset" id="resetEvaluations" type="button">Reset evaluaciones</button>
+      <button class="control-btn" id="presentMode" type="button">Pantalla completa</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Programa de induccion</div>
+      <h1>Gerencia Comercial</h1>
+      <p class="hero-copy">Una experiencia guiada para explicar el rol del gerente de comercializacion: de la ejecucion operativa a la direccion estrategica de ventas, clientes, equipo e indicadores.</p>
+      <div class="hero-actions">
+        <button class="primary" id="openAgendaModal" type="button">Agenda</button>
+        <a class="secondary" href="#actividades">Abrir actividades</a>
+        <button class="video-trigger" id="openProgramVideo" type="button"><span class="play-dot" aria-hidden="true"></span>Ver video</button>
+      </div>
+      <div class="hero-dashboard" aria-label="Resumen visual del programa">
+        <div class="hero-metric">
+          <strong><span data-count="4">0</span>h</strong>
+          <span>Formacion presencial</span>
+        </div>
+        <div class="hero-metric">
+          <strong><span data-count="4">0</span></strong>
+          <span>Modulos de direccion</span>
+        </div>
+        <div class="hero-metric">
+          <strong><span data-count="8">0</span></strong>
+          <span>Etapas comerciales</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="session-strip" id="agenda" aria-label="Agenda de cuatro horas">
+      <article class="time-block">
+        <strong>45 min</strong>
+        <span>Del vendedor al gerente de comercializacion</span>
+      </article>
+      <article class="time-block">
+        <strong>60 min</strong>
+        <span>Funciones y responsabilidades del puesto</span>
+      </article>
+      <article class="time-block">
+        <strong>75 min</strong>
+        <span>Proceso comercial de la organizacion</span>
+      </article>
+      <article class="time-block">
+        <strong>45 min</strong>
+        <span>Liderazgo, seguimiento e indicadores</span>
+      </article>
+      <article class="time-block">
+        <strong>15 min</strong>
+        <span>Conclusiones y compromisos de gestion</span>
+      </article>
+    </section>
+
+    <section id="modulos">
+      <div class="section-head">
+        <h2>Ruta de aprendizaje</h2>
+        <p>La sesion avanza desde el cambio de mentalidad hasta la administracion del desempeno comercial con datos, seguimiento y liderazgo.</p>
+      </div>
+
+      <div class="module-grid">
+        <article class="module-card active" data-module="0">
+          <div>
+            <div class="module-num">I</div>
+            <h3>Gerencia</h3>
+            <p>Diferencia entre vender individualmente y dirigir resultados por medio de personas, procesos y estrategia.</p>
+            <span class="module-status" data-exam-status hidden></span>
+          </div>
+          <a class="module-link" href="modulo-1-gerencia.html">Abrir modulo</a>
+        </article>
+        <article class="module-card" data-module="1">
+          <div>
+            <div class="module-num">II</div>
+            <h3>Funciones del Gerente de Comercializacion</h3>
+            <p>Plan comercial, gestion de ventas, desarrollo de negocios, clientes estrategicos y mercado institucional.</p>
+            <span class="module-status" data-exam-status="modulo2" hidden></span>
+          </div>
+          <a class="module-link" href="modulo-2-funciones.html">Abrir modulo</a>
+        </article>
+        <article class="module-card" data-module="2">
+          <div>
+            <div class="module-num">III</div>
+            <h3>Proceso Comercial</h3>
+            <p>Ocho etapas para convertir oportunidades en relaciones comerciales sostenibles y bien coordinadas.</p>
+          </div>
+          <a class="module-link" href="modulo-3-proceso-comercial.html">Abrir modulo</a>
+        </article>
+        <article class="module-card" data-module="3">
+          <div>
+            <div class="module-num">IV</div>
+            <h3>Liderazgo Comercial</h3>
+            <p>Seguimiento, coaching, embudo, reuniones comerciales y toma de decisiones basada en informacion.</p>
+          </div>
+          <a class="module-link" href="modulo-4-liderazgo-comercial.html">Abrir modulo</a>
+        </article>
+      </div>
+
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Vendedor vs. Gerente</h2>
+        <p>El punto de partida de la induccion es separar ejecucion individual de direccion comercial.</p>
+      </div>
+      <div class="compare">
+        <article class="compare-column">
+          <h3>Enfoque operativo</h3>
+          <ul class="pill-list">
+            <li>Prospecta, llama, visita y cotiza.</li>
+            <li>Negocia oportunidades propias.</li>
+            <li>Busca cumplir su meta individual.</li>
+            <li>Resuelve tareas inmediatas del ciclo de venta.</li>
+          </ul>
+        </article>
+        <article class="compare-column">
+          <h3>Enfoque gerencial</h3>
+          <ul class="pill-list">
+            <li>Define metas, prioridades y estrategias comerciales.</li>
+            <li>Desarrolla personas y administra recursos.</li>
+            <li>Supervisa indicadores, embudo y resultados del equipo.</li>
+            <li>Toma decisiones para crecimiento sostenible.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="proceso">
+      <div class="section-head">
+        <h2>Proceso comercial</h2>
+        <p>Una vista interactiva de las ocho etapas que el gerente debe administrar, revisar y fortalecer.</p>
+      </div>
+      <div class="process-wrap">
+        <div class="stage-list" id="stageList" aria-label="Etapas del proceso comercial"></div>
+        <article class="stage-detail" aria-live="polite">
+          <div class="eyebrow" id="stageEyebrow">Etapa I</div>
+          <h3 id="stageTitle">Prospeccion</h3>
+          <p id="stageConcept">Identificacion de personas, empresas o instituciones que pueden convertirse en clientes potenciales.</p>
+          <div class="stage-meta">
+            <div class="mini-card">
+              <strong>Importancia estrategica</strong>
+              <ul id="stageImportance"></ul>
+            </div>
+            <div class="mini-card">
+              <strong>Rol del gerente</strong>
+              <ul id="stageRole"></ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="actividades">
+      <div class="section-head">
+        <h2>Momentos de interaccion</h2>
+        <p>Preguntas y ejercicios cortos para activar criterio gerencial durante la capacitacion.</p>
+      </div>
+      <div class="activity-grid">
+        <article class="activity">
+          <h3>Mapa de delegacion</h3>
+          <p>Clasificar actividades actuales entre operativo, tactico y estrategico. El grupo decide que debe delegarse, supervisarse o asumirse.</p>
+          <footer><span class="tag">Modulo I</span><span class="tag">10 min</span></footer>
+        </article>
+        <article class="activity">
+          <h3>Cliente estrategico</h3>
+          <p>Elegir una cuenta clave y definir acciones para fidelizacion, crecimiento, seguimiento postventa y recuperacion de riesgos.</p>
+          <footer><span class="tag">Modulo II</span><span class="tag">12 min</span></footer>
+        </article>
+        <article class="activity">
+          <h3>Embudo en riesgo</h3>
+          <p>Revisar un embudo con pocas propuestas y muchas oportunidades estancadas. Identificar el cuello de botella y la accion correctiva.</p>
+          <footer><span class="tag">Modulo III</span><span class="tag">15 min</span></footer>
+        </article>
+        <article class="activity">
+          <h3>Objecion recurrente</h3>
+          <p>Tomar una objecion frecuente de precio, plazo o calidad y construir un argumento de valor para el equipo comercial.</p>
+          <footer><span class="tag">Negociacion</span><span class="tag">8 min</span></footer>
+        </article>
+        <article class="activity">
+          <h3>Reunion semanal</h3>
+          <p>Simular una revision de metas, oportunidades, actividades ejecutadas, problemas identificados y acciones correctivas.</p>
+          <footer><span class="tag">Modulo IV</span><span class="tag">10 min</span></footer>
+        </article>
+        <article class="activity">
+          <h3>Compromiso gerencial</h3>
+          <p>Cerrar con tres compromisos: una conducta a iniciar, una practica a dejar y un indicador a revisar cada semana.</p>
+          <footer><span class="tag">Cierre</span><span class="tag">7 min</span></footer>
+        </article>
+      </div>
+    </section>
+
+    <section id="indicadores">
+      <div class="section-head">
+        <h2>Tablero de indicadores</h2>
+        <p>Una lectura rapida de KPIs que ayudan a dirigir resultados, no solo a observar ventas cerradas.</p>
+      </div>
+      <div class="kpi-grid">
+        <article class="kpi">
+          <div class="kpi-value"><output id="salesOutput">82</output><span>%</span></div>
+          <h3>Cumplimiento de ventas</h3>
+          <p>Porcentaje alcanzado frente al presupuesto comercial definido.</p>
+          <div class="slider-row"><input id="salesSlider" type="range" min="0" max="140" value="82"><span>Meta</span></div>
+        </article>
+        <article class="kpi">
+          <div class="kpi-value"><output id="closeOutput">31</output><span>%</span></div>
+          <h3>Tasa de cierre</h3>
+          <p>Oportunidades convertidas en ventas dentro del embudo comercial.</p>
+          <div class="slider-row"><input id="closeSlider" type="range" min="0" max="100" value="31"><span>Cierre</span></div>
+        </article>
+        <article class="kpi">
+          <div class="kpi-value"><output id="retentionOutput">88</output><span>%</span></div>
+          <h3>Retencion de clientes</h3>
+          <p>Capacidad de conservar clientes activos y fortalecer relaciones comerciales.</p>
+          <div class="slider-row"><input id="retentionSlider" type="range" min="0" max="100" value="88"><span>Cartera</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="cierre">
+      <div class="section-head">
+        <h2>Cierre de sesion</h2>
+        <p>Lista de verificacion para transformar la induccion en habitos de direccion comercial.</p>
+      </div>
+      <ul class="checklist">
+        <li><label><input type="checkbox"> <span>Definir metas comerciales claras, medibles y comunicadas al equipo.</span></label></li>
+        <li><label><input type="checkbox"> <span>Revisar semanalmente oportunidades, actividades, bloqueos y acciones correctivas.</span></label></li>
+        <li><label><input type="checkbox"> <span>Administrar clientes estrategicos con seguimiento, fidelizacion y postventa.</span></label></li>
+        <li><label><input type="checkbox"> <span>Usar indicadores para decidir, priorizar recursos y anticipar riesgos.</span></label></li>
+        <li><label><input type="checkbox"> <span>Desarrollar al equipo mediante retroalimentacion, coaching y disciplina de ejecucion.</span></label></li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="agenda-modal" id="agendaModal" aria-hidden="true">
+    <div class="agenda-dialog" role="dialog" aria-modal="true" aria-labelledby="agendaModalTitle">
+      <div class="agenda-header">
+        <div>
+          <div class="eyebrow">Programa de induccion</div>
+          <h2 id="agendaModalTitle">Agenda de Gerencia Comercial</h2>
+          <p>Ruta de 4 horas para revisar modulos, tiempos y temas clave.</p>
+        </div>
+        <button class="agenda-close" id="closeAgendaModal" type="button" aria-label="Cerrar agenda">×</button>
+      </div>
+      <div class="agenda-body">
+        <div class="agenda-summary">
+          <div><strong>4 horas</strong><span>Duracion total</span></div>
+          <div><strong>4 modulos</strong><span>Ruta de formacion</span></div>
+          <div><strong>15 min</strong><span>Cierre y conclusiones</span></div>
+        </div>
+        <div class="agenda-modules">
+          <article class="agenda-module" style="--agenda-delay: 40ms">
+            <div class="agenda-time">45<span>min</span></div>
+            <div>
+              <h3>Modulo I: Gerencia</h3>
+              <p>Pasar de vender individualmente a dirigir resultados del equipo.</p>
+              <ul>
+                <li>Evolucion profesional: de ejecutor a estratega.</li>
+                <li>Diferencia entre funciones operativas y estrategicas.</li>
+                <li>Pensamiento estrategico, liderazgo de resultados y cinco pilares de la gerencia comercial.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="agenda-module" style="--agenda-delay: 110ms">
+            <div class="agenda-time">60<span>min</span></div>
+            <div>
+              <h3>Modulo II: Funciones del Gerente de Comercializacion</h3>
+              <p>Clarificar responsabilidades estrategicas, tacticas y de supervision.</p>
+              <ul>
+                <li>Planificacion y direccion comercial.</li>
+                <li>Gestion de ventas, embudo e indicadores.</li>
+                <li>Desarrollo de negocios, clientes estrategicos, licitaciones y coordinacion interna.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="agenda-module" style="--agenda-delay: 180ms">
+            <div class="agenda-time">75<span>min</span></div>
+            <div>
+              <h3>Modulo III: Proceso Comercial</h3>
+              <p>Entender las etapas que convierten oportunidades en relaciones comerciales.</p>
+              <ul>
+                <li>Prospeccion, contacto inicial y diagnostico.</li>
+                <li>Presentacion de solucion, manejo de objeciones y cierre.</li>
+                <li>Compilado de informacion, coordinacion interna y postventa.</li>
+              </ul>
+            </div>
+          </article>
+          <article class="agenda-module" style="--agenda-delay: 250ms">
+            <div class="agenda-time">45<span>min</span></div>
+            <div>
+              <h3>Modulo IV: Liderazgo Comercial</h3>
+              <p>Gestionar equipo, seguimiento, indicadores y decisiones con datos.</p>
+              <ul>
+                <li>Liderazgo comercial y administracion del desempeno.</li>
+                <li>Indicadores clave: ventas, clientes, embudo y productividad.</li>
+                <li>Reuniones de seguimiento, coaching comercial y decisiones basadas en datos.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-modal" id="programVideoModal" aria-hidden="true">
+    <div class="video-dialog" role="dialog" aria-modal="true" aria-labelledby="programVideoTitle">
+      <div class="video-header">
+        <strong id="programVideoTitle">00 - Programa</strong>
+        <button class="video-close" id="closeProgramVideo" type="button" aria-label="Cerrar video">×</button>
+      </div>
+      <video id="programVideo" controls preload="metadata">
+        <source src="assets/00-programa.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <script>
+    const stages = [
+      {
+        name: "Prospeccion",
+        concept: "Identificacion de personas, empresas o instituciones que pueden convertirse en clientes potenciales.",
+        importance: ["Alimenta el embudo comercial.", "Reduce dependencia de pocos clientes.", "Permite abrir nuevos mercados."],
+        role: ["Definir criterios de prospectos.", "Supervisar volumen y calidad.", "Asignar prioridades al equipo."]
+      },
+      {
+        name: "Contacto inicial",
+        concept: "Primer acercamiento formal con el prospecto para despertar interes y abrir conversacion comercial.",
+        importance: ["Construye la primera percepcion.", "Filtra oportunidades reales.", "Abre espacio para diagnostico."],
+        role: ["Estandarizar mensajes.", "Revisar calidad de contactos.", "Acompanhar cuentas de alto valor."]
+      },
+      {
+        name: "Diagnostico",
+        concept: "Comprension de necesidades, expectativas, problemas y criterios de decision del cliente.",
+        importance: ["Incrementa efectividad de propuestas.", "Reduce objeciones futuras.", "Fortalece confianza del cliente."],
+        role: ["Capacitar en venta consultiva.", "Validar oportunidades estrategicas.", "Asegurar documentacion adecuada."]
+      },
+      {
+        name: "Presentacion de solucion",
+        concept: "Demostracion de como los productos o servicios resuelven necesidades y generan beneficios concretos.",
+        importance: ["Eleva la percepcion de valor.", "Diferencia a la organizacion.", "Facilita avance a negociacion."],
+        role: ["Aprobar propuestas estrategicas.", "Supervisar condiciones comerciales.", "Participar en negocios de alto impacto."]
+      },
+      {
+        name: "Manejo de objeciones",
+        concept: "Gestion de inquietudes sobre precio, calidad, tiempos, condiciones o experiencias previas.",
+        importance: ["Incrementa conversion.", "Reduce incertidumbre.", "Convierte dudas en informacion util."],
+        role: ["Identificar objeciones recurrentes.", "Disenar argumentos de apoyo.", "Fortalecer negociacion del equipo."]
+      },
+      {
+        name: "Cierre de ventas",
+        concept: "Formalizacion del acuerdo comercial y confirmacion de condiciones, cantidades, especificaciones y plazos.",
+        importance: ["Convierte oportunidades en ingresos.", "Formaliza compromisos.", "Activa la relacion contractual."],
+        role: ["Supervisar negociaciones clave.", "Aprobar condiciones especiales.", "Monitorear tasas de conversion."]
+      },
+      {
+        name: "Compilado de informacion",
+        concept: "Transferencia completa y precisa de informacion comercial hacia las areas que ejecutan el pedido.",
+        importance: ["Reduce errores operativos.", "Evita reprocesos.", "Mejora coordinacion interna."],
+        role: ["Garantizar cumplimiento de procedimientos.", "Coordinar comunicacion entre areas.", "Promover mejora continua."]
+      },
+      {
+        name: "Postventa",
+        concept: "Actividades posteriores a la entrega para asegurar satisfaccion, resolver reclamos y desarrollar la relacion.",
+        importance: ["Genera recompra.", "Obtiene referencias.", "Fortalece reputacion empresarial."],
+        role: ["Supervisar satisfaccion.", "Analizar reclamos y garantias.", "Desarrollar fidelizacion y recompra."]
+      }
+    ];
+
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timeoutId);
+      showToast.timeoutId = window.setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    const stageList = document.getElementById("stageList");
+    const stageEyebrow = document.getElementById("stageEyebrow");
+    const stageTitle = document.getElementById("stageTitle");
+    const stageConcept = document.getElementById("stageConcept");
+    const stageImportance = document.getElementById("stageImportance");
+    const stageRole = document.getElementById("stageRole");
+
+    function renderStage(index) {
+      const stage = stages[index];
+      document.querySelectorAll(".stage-btn").forEach((btn) => btn.classList.remove("active"));
+      document.querySelector(`[data-stage="${index}"]`).classList.add("active");
+      stageEyebrow.textContent = `Etapa ${index + 1}`;
+      stageTitle.textContent = stage.name;
+      stageConcept.textContent = stage.concept;
+      stageImportance.innerHTML = stage.importance.map((item) => `<li>${item}</li>`).join("");
+      stageRole.innerHTML = stage.role.map((item) => `<li>${item}</li>`).join("");
+    }
+
+    stages.forEach((stage, index) => {
+      const btn = document.createElement("button");
+      btn.className = "stage-btn";
+      btn.type = "button";
+      btn.dataset.stage = index;
+      btn.textContent = `${index + 1}. ${stage.name}`;
+      btn.addEventListener("click", () => renderStage(index));
+      stageList.appendChild(btn);
+    });
+    renderStage(0);
+
+    const sliders = [
+      ["salesSlider", "salesOutput"],
+      ["closeSlider", "closeOutput"],
+      ["retentionSlider", "retentionOutput"]
+    ];
+
+    sliders.forEach(([sliderId, outputId]) => {
+      const slider = document.getElementById(sliderId);
+      const output = document.getElementById(outputId);
+      slider.addEventListener("input", () => {
+        output.value = slider.value;
+      });
+    });
+
+    const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealTargets = document.querySelectorAll(
+      "section, .time-block, .module-card, .panel, .compare-column, .stage-detail, .activity, .kpi, .checklist label"
+    );
+
+    revealTargets.forEach((target, index) => {
+      target.classList.add("reveal");
+      target.style.setProperty("--delay", `${Math.min(index % 6, 5) * 55}ms`);
+    });
+
+    if (motionAllowed && "IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .14 });
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    } else {
+      revealTargets.forEach((target) => target.classList.add("is-visible"));
+    }
+
+    document.querySelectorAll("[data-count]").forEach((counter) => {
+      const target = Number(counter.dataset.count);
+      const duration = motionAllowed ? 900 : 0;
+      const startedAt = performance.now();
+
+      function tick(now) {
+        const progress = duration === 0 ? 1 : Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = Math.round(target * eased);
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    });
+
+    const moduleOneExam = (() => {
+      try {
+        return JSON.parse(localStorage.getItem("induccion.modulo1.exam.v2") || "null");
+      } catch (error) {
+        return null;
+      }
+    })();
+
+    const moduleOneStatus = document.querySelector("[data-exam-status]");
+    if (moduleOneStatus && moduleOneExam?.status) {
+      const approved = moduleOneExam.status === "approved";
+      moduleOneStatus.hidden = false;
+      moduleOneStatus.classList.toggle("failed", !approved);
+      moduleOneStatus.textContent = `${approved ? "Aprobado" : "Reprobado"} · ${moduleOneExam.score}/${moduleOneExam.total}`;
+    }
+
+    const examStatusKeys = {
+      modulo1: "induccion.modulo1.exam.v2",
+      modulo2: "induccion.modulo2.exam.v1"
+    };
+
+    document.querySelectorAll("[data-exam-status]").forEach((statusBadge, index) => {
+      const statusId = statusBadge.dataset.examStatus || `modulo${index + 1}`;
+      const storageKey = examStatusKeys[statusId];
+      if (!storageKey) return;
+
+      let examResult = null;
+      try {
+        examResult = JSON.parse(localStorage.getItem(storageKey) || "null");
+      } catch (error) {
+        examResult = null;
+      }
+
+      if (!examResult?.status) return;
+      const approved = examResult.status === "approved";
+      statusBadge.hidden = false;
+      statusBadge.classList.toggle("failed", !approved);
+      statusBadge.textContent = `${approved ? "Aprobado" : "Reprobado"} · ${examResult.score}/${examResult.total}`;
+    });
+
+    document.getElementById("resetEvaluations").addEventListener("click", () => {
+      const shouldReset = window.confirm("¿Resetear todas las evaluaciones guardadas?");
+      if (!shouldReset) return;
+
+      Object.values(examStatusKeys).forEach((storageKey) => localStorage.removeItem(storageKey));
+      document.querySelectorAll("[data-exam-status]").forEach((statusBadge) => {
+        statusBadge.hidden = true;
+        statusBadge.textContent = "";
+        statusBadge.classList.remove("failed");
+      });
+      showToast("Evaluaciones reseteadas");
+    });
+
+    document.getElementById("presentMode").addEventListener("click", async () => {
+      document.body.classList.toggle("presenting");
+      if (!document.fullscreenElement && document.body.classList.contains("presenting")) {
+        try {
+          await document.documentElement.requestFullscreen();
+        } catch (error) {
+          showToast("Modo presentacion activado");
+        }
+      } else if (document.fullscreenElement && !document.body.classList.contains("presenting")) {
+        await document.exitFullscreen();
+      }
+    });
+
+    const agendaModal = document.getElementById("agendaModal");
+    const openAgendaModal = document.getElementById("openAgendaModal");
+    const openAgendaNav = document.getElementById("openAgendaNav");
+    const closeAgendaModal = document.getElementById("closeAgendaModal");
+    let lockedScrollY = 0;
+
+    function lockPageScroll() {
+      lockedScrollY = window.scrollY;
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.classList.add("modal-open");
+    }
+
+    function unlockPageScroll() {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, lockedScrollY);
+    }
+
+    function showAgendaModal() {
+      agendaModal.classList.add("open");
+      lockPageScroll();
+      agendaModal.setAttribute("aria-hidden", "false");
+      closeAgendaModal.focus();
+    }
+
+    function hideAgendaModal() {
+      agendaModal.classList.remove("open");
+      agendaModal.setAttribute("aria-hidden", "true");
+      if (!programVideoModal.classList.contains("open")) {
+        unlockPageScroll();
+      }
+      openAgendaModal.focus();
+    }
+
+    openAgendaModal.addEventListener("click", showAgendaModal);
+    openAgendaNav.addEventListener("click", showAgendaModal);
+    closeAgendaModal.addEventListener("click", hideAgendaModal);
+
+    agendaModal.addEventListener("click", (event) => {
+      if (event.target === agendaModal) {
+        hideAgendaModal();
+      }
+    });
+
+    const programVideoModal = document.getElementById("programVideoModal");
+    const programVideo = document.getElementById("programVideo");
+    const openProgramVideo = document.getElementById("openProgramVideo");
+    const closeProgramVideo = document.getElementById("closeProgramVideo");
+
+    function openVideoModal() {
+      programVideoModal.classList.add("open");
+      lockPageScroll();
+      programVideoModal.setAttribute("aria-hidden", "false");
+      closeProgramVideo.focus();
+    }
+
+    function closeVideoModal() {
+      programVideo.pause();
+      programVideoModal.classList.remove("open");
+      programVideoModal.setAttribute("aria-hidden", "true");
+      if (!agendaModal.classList.contains("open")) {
+        unlockPageScroll();
+      }
+      openProgramVideo.focus();
+    }
+
+    openProgramVideo.addEventListener("click", openVideoModal);
+    closeProgramVideo.addEventListener("click", closeVideoModal);
+
+    programVideoModal.addEventListener("click", (event) => {
+      if (event.target === programVideoModal) {
+        closeVideoModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && agendaModal.classList.contains("open")) {
+        hideAgendaModal();
+      }
+
+      if (event.key === "Escape" && programVideoModal.classList.contains("open")) {
+        closeVideoModal();
+      }
+    });
+
+    document.querySelectorAll(".checklist input").forEach((box) => {
+      box.addEventListener("change", () => {
+        const completed = document.querySelectorAll(".checklist input:checked").length;
+        showToast(`${completed} compromisos marcados`);
+      });
+    });
+
+  </script>
+</body>
+</html>
