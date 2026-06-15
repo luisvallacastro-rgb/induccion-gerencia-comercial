@@ -127,8 +127,9 @@
       isolation: isolate;
       color: var(--white);
       background-image:
-        linear-gradient(90deg, rgba(13, 32, 38, .9), rgba(13, 32, 38, .62) 43%, rgba(13, 32, 38, .18) 78%),
-        url("assets/induccion-comercial-hero.png");
+        linear-gradient(90deg, rgba(7, 16, 19, .94), rgba(9, 22, 25, .78) 45%, rgba(8, 19, 22, .48) 100%),
+        linear-gradient(0deg, rgba(0, 0, 0, .34), rgba(0, 0, 0, .34)),
+        url("assets/gerencia-comercial-home.jpeg");
       background-size: cover;
       background-position: center;
       overflow: hidden;
@@ -266,34 +267,30 @@
 
     .hero-dashboard {
       display: grid;
-      grid-template-columns: repeat(3, minmax(140px, 1fr));
-      gap: 10px;
-      width: min(620px, 100%);
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 12px;
+      width: min(680px, 100%);
       margin-top: 34px;
     }
 
-    .hero-metric {
+    .speaker-card {
       position: relative;
       overflow: hidden;
-      min-height: 96px;
-      padding: 14px;
+      min-height: 104px;
+      padding: 18px;
       border: 1px solid rgba(255,255,255,.22);
       border-radius: var(--radius);
-      background: rgba(255,255,255,.11);
+      background: rgba(10, 24, 28, .62);
       backdrop-filter: blur(12px);
       box-shadow: 0 20px 60px rgba(0,0,0,.18);
       animation: metricFloat 5.5s ease-in-out infinite;
     }
 
-    .hero-metric:nth-child(2) {
+    .speaker-card:nth-child(2) {
       animation-delay: .35s;
     }
 
-    .hero-metric:nth-child(3) {
-      animation-delay: .7s;
-    }
-
-    .hero-metric::after {
+    .speaker-card::after {
       content: "";
       position: absolute;
       inset: auto 12px 12px;
@@ -304,22 +301,31 @@
       animation: metricBar 3.8s ease-in-out infinite;
     }
 
-    .hero-metric strong {
+    .speaker-card span {
       display: block;
-      font-size: 1.65rem;
-      line-height: 1;
+      color: #bde4df;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
 
-    .hero-metric > span {
+    .speaker-card strong {
       display: block;
-      margin-top: 8px;
+      margin-top: 10px;
+      font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+      line-height: 1.08;
+    }
+
+    .speaker-card p {
+      margin: 8px 0 18px;
       color: rgba(255,255,255,.78);
-      font-size: .9rem;
+      font-size: .98rem;
     }
 
     .session-strip {
       display: grid;
-      grid-template-columns: repeat(5, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
       gap: 1px;
       width: min(1180px, calc(100% - 32px));
       margin: -28px auto 0;
@@ -344,8 +350,8 @@
 
     .time-block {
       background: var(--white);
-      padding: 16px;
-      min-height: 112px;
+      padding: 20px;
+      min-height: 148px;
       transition: transform .28s ease, background .28s ease;
     }
 
@@ -356,15 +362,27 @@
 
     .time-block strong {
       display: block;
-      font-size: 1.45rem;
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
       color: var(--teal);
     }
 
     .time-block span {
       display: block;
       color: var(--muted);
-      font-size: .92rem;
+      font-size: .96rem;
       margin-top: 6px;
+    }
+
+    .time-block h3 {
+      margin: 10px 0 0;
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      line-height: 1.15;
+    }
+
+    .time-block p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: .98rem;
     }
 
     main {
@@ -1226,7 +1244,7 @@
       .module-grid,
       .activity-grid,
       .kpi-grid,
-      .hero-dashboard,
+        .hero-dashboard,
       .compare,
       .process-wrap,
       .stage-meta {
@@ -1242,7 +1260,7 @@
     @media (max-width: 620px) {
       .hero {
         min-height: 82vh;
-        background-position: 62% center;
+        background-position: 54% center;
       }
 
       .hero-actions {
@@ -1380,50 +1398,40 @@
     <div class="hero-inner">
       <div class="eyebrow">Programa de induccion</div>
       <h1>Gerencia Comercial</h1>
-      <p class="hero-copy">Una experiencia guiada para explicar el rol del gerente de comercializacion: de la ejecucion operativa a la direccion estrategica de ventas, clientes, equipo e indicadores.</p>
+      <p class="hero-copy">Programa de formacion orientado a comprender las responsabilidades del cargo, el perfil del puesto, la gestion integral del proceso comercial y las metricas e indicadores que determinan el exito de la gestion comercial.</p>
       <div class="hero-actions">
         <button class="primary" id="openAgendaModal" type="button">Agenda</button>
-        <a class="secondary" href="#actividades">Abrir actividades</a>
+        <a class="secondary" href="#modulos">Ver modulos</a>
         <button class="video-trigger" id="openProgramVideo" type="button"><span class="play-dot" aria-hidden="true"></span>Ver video</button>
       </div>
-      <div class="hero-dashboard" aria-label="Resumen visual del programa">
-        <div class="hero-metric">
-          <strong><span data-count="4">0</span>h</strong>
-          <span>Formacion presencial</span>
-        </div>
-        <div class="hero-metric">
-          <strong><span data-count="4">0</span></strong>
-          <span>Modulos de direccion</span>
-        </div>
-        <div class="hero-metric">
-          <strong><span data-count="8">0</span></strong>
-          <span>Etapas comerciales</span>
-        </div>
+      <div class="hero-dashboard" aria-label="Exponentes del programa">
+        <article class="speaker-card">
+          <span>Exponente</span>
+          <strong>Mtro. Carlos Moreira</strong>
+          <p>Gerente de Recursos Humanos</p>
+        </article>
+        <article class="speaker-card">
+          <span>Exponente</span>
+          <strong>MaFi. Luis Valladares</strong>
+          <p>Gerente Financiero</p>
+        </article>
       </div>
     </div>
   </div>
 
   <main>
-    <section class="session-strip" id="agenda" aria-label="Agenda de cuatro horas">
+    <section class="session-strip" id="agenda" aria-label="Agenda de ocho horas">
       <article class="time-block">
-        <strong>45 min</strong>
-        <span>Del vendedor al gerente de comercializacion</span>
+        <strong>8:00 a.m. a 12:00 p.m.</strong>
+        <span>Impartida por Mtro. Carlos Moreira</span>
+        <h3>Gerencia y funciones del puesto</h3>
+        <p>Responsabilidades del cargo y perfil esperado para la direccion comercial.</p>
       </article>
       <article class="time-block">
-        <strong>60 min</strong>
-        <span>Funciones y responsabilidades del puesto</span>
-      </article>
-      <article class="time-block">
-        <strong>75 min</strong>
-        <span>Proceso comercial de la organizacion</span>
-      </article>
-      <article class="time-block">
-        <strong>45 min</strong>
-        <span>Liderazgo, seguimiento e indicadores</span>
-      </article>
-      <article class="time-block">
-        <strong>15 min</strong>
-        <span>Conclusiones y compromisos de gestion</span>
+        <strong>1:00 p.m. a 5:00 p.m.</strong>
+        <span>Impartida por MaFi. Luis Valladares</span>
+        <h3>Proceso comercial y metricas</h3>
+        <p>Gestion integral del proceso comercial, seguimiento e indicadores clave.</p>
       </article>
     </section>
 
@@ -1472,137 +1480,6 @@
 
     </section>
 
-    <section>
-      <div class="section-head">
-        <h2>Vendedor vs. Gerente</h2>
-        <p>El punto de partida de la induccion es separar ejecucion individual de direccion comercial.</p>
-      </div>
-      <div class="compare">
-        <article class="compare-column">
-          <h3>Enfoque operativo</h3>
-          <ul class="pill-list">
-            <li>Prospecta, llama, visita y cotiza.</li>
-            <li>Negocia oportunidades propias.</li>
-            <li>Busca cumplir su meta individual.</li>
-            <li>Resuelve tareas inmediatas del ciclo de venta.</li>
-          </ul>
-        </article>
-        <article class="compare-column">
-          <h3>Enfoque gerencial</h3>
-          <ul class="pill-list">
-            <li>Define metas, prioridades y estrategias comerciales.</li>
-            <li>Desarrolla personas y administra recursos.</li>
-            <li>Supervisa indicadores, embudo y resultados del equipo.</li>
-            <li>Toma decisiones para crecimiento sostenible.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="proceso">
-      <div class="section-head">
-        <h2>Proceso comercial</h2>
-        <p>Una vista interactiva de las ocho etapas que el gerente debe administrar, revisar y fortalecer.</p>
-      </div>
-      <div class="process-wrap">
-        <div class="stage-list" id="stageList" aria-label="Etapas del proceso comercial"></div>
-        <article class="stage-detail" aria-live="polite">
-          <div class="eyebrow" id="stageEyebrow">Etapa I</div>
-          <h3 id="stageTitle">Prospeccion</h3>
-          <p id="stageConcept">Identificacion de personas, empresas o instituciones que pueden convertirse en clientes potenciales.</p>
-          <div class="stage-meta">
-            <div class="mini-card">
-              <strong>Importancia estrategica</strong>
-              <ul id="stageImportance"></ul>
-            </div>
-            <div class="mini-card">
-              <strong>Rol del gerente</strong>
-              <ul id="stageRole"></ul>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="actividades">
-      <div class="section-head">
-        <h2>Momentos de interaccion</h2>
-        <p>Preguntas y ejercicios cortos para activar criterio gerencial durante la capacitacion.</p>
-      </div>
-      <div class="activity-grid">
-        <article class="activity">
-          <h3>Mapa de delegacion</h3>
-          <p>Clasificar actividades actuales entre operativo, tactico y estrategico. El grupo decide que debe delegarse, supervisarse o asumirse.</p>
-          <footer><span class="tag">Modulo I</span><span class="tag">10 min</span></footer>
-        </article>
-        <article class="activity">
-          <h3>Cliente estrategico</h3>
-          <p>Elegir una cuenta clave y definir acciones para fidelizacion, crecimiento, seguimiento postventa y recuperacion de riesgos.</p>
-          <footer><span class="tag">Modulo II</span><span class="tag">12 min</span></footer>
-        </article>
-        <article class="activity">
-          <h3>Embudo en riesgo</h3>
-          <p>Revisar un embudo con pocas propuestas y muchas oportunidades estancadas. Identificar el cuello de botella y la accion correctiva.</p>
-          <footer><span class="tag">Modulo III</span><span class="tag">15 min</span></footer>
-        </article>
-        <article class="activity">
-          <h3>Objecion recurrente</h3>
-          <p>Tomar una objecion frecuente de precio, plazo o calidad y construir un argumento de valor para el equipo comercial.</p>
-          <footer><span class="tag">Negociacion</span><span class="tag">8 min</span></footer>
-        </article>
-        <article class="activity">
-          <h3>Reunion semanal</h3>
-          <p>Simular una revision de metas, oportunidades, actividades ejecutadas, problemas identificados y acciones correctivas.</p>
-          <footer><span class="tag">Modulo IV</span><span class="tag">10 min</span></footer>
-        </article>
-        <article class="activity">
-          <h3>Compromiso gerencial</h3>
-          <p>Cerrar con tres compromisos: una conducta a iniciar, una practica a dejar y un indicador a revisar cada semana.</p>
-          <footer><span class="tag">Cierre</span><span class="tag">7 min</span></footer>
-        </article>
-      </div>
-    </section>
-
-    <section id="indicadores">
-      <div class="section-head">
-        <h2>Tablero de indicadores</h2>
-        <p>Una lectura rapida de KPIs que ayudan a dirigir resultados, no solo a observar ventas cerradas.</p>
-      </div>
-      <div class="kpi-grid">
-        <article class="kpi">
-          <div class="kpi-value"><output id="salesOutput">82</output><span>%</span></div>
-          <h3>Cumplimiento de ventas</h3>
-          <p>Porcentaje alcanzado frente al presupuesto comercial definido.</p>
-          <div class="slider-row"><input id="salesSlider" type="range" min="0" max="140" value="82"><span>Meta</span></div>
-        </article>
-        <article class="kpi">
-          <div class="kpi-value"><output id="closeOutput">31</output><span>%</span></div>
-          <h3>Tasa de cierre</h3>
-          <p>Oportunidades convertidas en ventas dentro del embudo comercial.</p>
-          <div class="slider-row"><input id="closeSlider" type="range" min="0" max="100" value="31"><span>Cierre</span></div>
-        </article>
-        <article class="kpi">
-          <div class="kpi-value"><output id="retentionOutput">88</output><span>%</span></div>
-          <h3>Retencion de clientes</h3>
-          <p>Capacidad de conservar clientes activos y fortalecer relaciones comerciales.</p>
-          <div class="slider-row"><input id="retentionSlider" type="range" min="0" max="100" value="88"><span>Cartera</span></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="cierre">
-      <div class="section-head">
-        <h2>Cierre de sesion</h2>
-        <p>Lista de verificacion para transformar la induccion en habitos de direccion comercial.</p>
-      </div>
-      <ul class="checklist">
-        <li><label><input type="checkbox"> <span>Definir metas comerciales claras, medibles y comunicadas al equipo.</span></label></li>
-        <li><label><input type="checkbox"> <span>Revisar semanalmente oportunidades, actividades, bloqueos y acciones correctivas.</span></label></li>
-        <li><label><input type="checkbox"> <span>Administrar clientes estrategicos con seguimiento, fidelizacion y postventa.</span></label></li>
-        <li><label><input type="checkbox"> <span>Usar indicadores para decidir, priorizar recursos y anticipar riesgos.</span></label></li>
-        <li><label><input type="checkbox"> <span>Desarrollar al equipo mediante retroalimentacion, coaching y disciplina de ejecucion.</span></label></li>
-      </ul>
-    </section>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1690,57 +1567,6 @@
   </div>
 
   <script>
-    const stages = [
-      {
-        name: "Prospeccion",
-        concept: "Identificacion de personas, empresas o instituciones que pueden convertirse en clientes potenciales.",
-        importance: ["Alimenta el embudo comercial.", "Reduce dependencia de pocos clientes.", "Permite abrir nuevos mercados."],
-        role: ["Definir criterios de prospectos.", "Supervisar volumen y calidad.", "Asignar prioridades al equipo."]
-      },
-      {
-        name: "Contacto inicial",
-        concept: "Primer acercamiento formal con el prospecto para despertar interes y abrir conversacion comercial.",
-        importance: ["Construye la primera percepcion.", "Filtra oportunidades reales.", "Abre espacio para diagnostico."],
-        role: ["Estandarizar mensajes.", "Revisar calidad de contactos.", "Acompanhar cuentas de alto valor."]
-      },
-      {
-        name: "Diagnostico",
-        concept: "Comprension de necesidades, expectativas, problemas y criterios de decision del cliente.",
-        importance: ["Incrementa efectividad de propuestas.", "Reduce objeciones futuras.", "Fortalece confianza del cliente."],
-        role: ["Capacitar en venta consultiva.", "Validar oportunidades estrategicas.", "Asegurar documentacion adecuada."]
-      },
-      {
-        name: "Presentacion de solucion",
-        concept: "Demostracion de como los productos o servicios resuelven necesidades y generan beneficios concretos.",
-        importance: ["Eleva la percepcion de valor.", "Diferencia a la organizacion.", "Facilita avance a negociacion."],
-        role: ["Aprobar propuestas estrategicas.", "Supervisar condiciones comerciales.", "Participar en negocios de alto impacto."]
-      },
-      {
-        name: "Manejo de objeciones",
-        concept: "Gestion de inquietudes sobre precio, calidad, tiempos, condiciones o experiencias previas.",
-        importance: ["Incrementa conversion.", "Reduce incertidumbre.", "Convierte dudas en informacion util."],
-        role: ["Identificar objeciones recurrentes.", "Disenar argumentos de apoyo.", "Fortalecer negociacion del equipo."]
-      },
-      {
-        name: "Cierre de ventas",
-        concept: "Formalizacion del acuerdo comercial y confirmacion de condiciones, cantidades, especificaciones y plazos.",
-        importance: ["Convierte oportunidades en ingresos.", "Formaliza compromisos.", "Activa la relacion contractual."],
-        role: ["Supervisar negociaciones clave.", "Aprobar condiciones especiales.", "Monitorear tasas de conversion."]
-      },
-      {
-        name: "Compilado de informacion",
-        concept: "Transferencia completa y precisa de informacion comercial hacia las areas que ejecutan el pedido.",
-        importance: ["Reduce errores operativos.", "Evita reprocesos.", "Mejora coordinacion interna."],
-        role: ["Garantizar cumplimiento de procedimientos.", "Coordinar comunicacion entre areas.", "Promover mejora continua."]
-      },
-      {
-        name: "Postventa",
-        concept: "Actividades posteriores a la entrega para asegurar satisfaccion, resolver reclamos y desarrollar la relacion.",
-        importance: ["Genera recompra.", "Obtiene referencias.", "Fortalece reputacion empresarial."],
-        role: ["Supervisar satisfaccion.", "Analizar reclamos y garantias.", "Desarrollar fidelizacion y recompra."]
-      }
-    ];
-
     const toast = document.getElementById("toast");
 
     function showToast(message) {
@@ -1750,52 +1576,9 @@
       showToast.timeoutId = window.setTimeout(() => toast.classList.remove("show"), 1800);
     }
 
-    const stageList = document.getElementById("stageList");
-    const stageEyebrow = document.getElementById("stageEyebrow");
-    const stageTitle = document.getElementById("stageTitle");
-    const stageConcept = document.getElementById("stageConcept");
-    const stageImportance = document.getElementById("stageImportance");
-    const stageRole = document.getElementById("stageRole");
-
-    function renderStage(index) {
-      const stage = stages[index];
-      document.querySelectorAll(".stage-btn").forEach((btn) => btn.classList.remove("active"));
-      document.querySelector(`[data-stage="${index}"]`).classList.add("active");
-      stageEyebrow.textContent = `Etapa ${index + 1}`;
-      stageTitle.textContent = stage.name;
-      stageConcept.textContent = stage.concept;
-      stageImportance.innerHTML = stage.importance.map((item) => `<li>${item}</li>`).join("");
-      stageRole.innerHTML = stage.role.map((item) => `<li>${item}</li>`).join("");
-    }
-
-    stages.forEach((stage, index) => {
-      const btn = document.createElement("button");
-      btn.className = "stage-btn";
-      btn.type = "button";
-      btn.dataset.stage = index;
-      btn.textContent = `${index + 1}. ${stage.name}`;
-      btn.addEventListener("click", () => renderStage(index));
-      stageList.appendChild(btn);
-    });
-    renderStage(0);
-
-    const sliders = [
-      ["salesSlider", "salesOutput"],
-      ["closeSlider", "closeOutput"],
-      ["retentionSlider", "retentionOutput"]
-    ];
-
-    sliders.forEach(([sliderId, outputId]) => {
-      const slider = document.getElementById(sliderId);
-      const output = document.getElementById(outputId);
-      slider.addEventListener("input", () => {
-        output.value = slider.value;
-      });
-    });
-
     const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const revealTargets = document.querySelectorAll(
-      "section, .time-block, .module-card, .panel, .compare-column, .stage-detail, .activity, .kpi, .checklist label"
+      "section, .time-block, .module-card, .panel"
     );
 
     revealTargets.forEach((target, index) => {
