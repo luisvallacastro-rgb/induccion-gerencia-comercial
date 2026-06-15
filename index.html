@@ -1018,7 +1018,7 @@
 
     .agenda-summary {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
       margin-bottom: 18px;
     }
@@ -1053,7 +1053,7 @@
 
     .agenda-module {
       display: grid;
-      grid-template-columns: 104px 1fr;
+      grid-template-columns: 1fr;
       gap: 16px;
       padding: 16px;
       position: relative;
@@ -1075,25 +1075,6 @@
       inset: 0 auto 0 0;
       width: 5px;
       background: linear-gradient(180deg, var(--gold), var(--teal));
-    }
-
-    .agenda-time {
-      display: grid;
-      place-items: center;
-      align-self: start;
-      min-height: 76px;
-      border-radius: 8px;
-      color: #102026;
-      background: #f3c565;
-      font-weight: 900;
-      text-align: center;
-      line-height: 1.1;
-    }
-
-    .agenda-time span {
-      display: block;
-      font-size: .82rem;
-      font-weight: 800;
     }
 
     .agenda-module h3 {
@@ -1121,9 +1102,6 @@
         transform: translateY(-3px) scale(1.035);
       }
 
-      .agenda-module:hover .agenda-time {
-        box-shadow: 0 12px 26px rgba(243, 197, 101, .22);
-      }
     }
 
     @keyframes agendaItemIn {
@@ -1328,11 +1306,6 @@
         padding: 14px 14px 14px 16px;
       }
 
-      .agenda-time {
-        width: 76px;
-        min-height: 50px;
-      }
-
       .agenda-module h3 {
         font-size: 1.05rem;
         line-height: 1.24;
@@ -1409,15 +1382,13 @@
   </div>
 
   <main>
-    <section class="session-strip" id="agenda" aria-label="Agenda de ocho horas">
+    <section class="session-strip" id="agenda" aria-label="Agenda del programa">
       <article class="time-block">
-        <strong>8:00 a.m. a 12:00 p.m.</strong>
         <span>Impartida por Mtro. Carlos Moreira</span>
         <h3>Gerencia y funciones del puesto</h3>
         <p>Responsabilidades del cargo y perfil esperado para la direccion comercial.</p>
       </article>
       <article class="time-block">
-        <strong>1:00 p.m. a 5:00 p.m.</strong>
         <span>Impartida por MaFi. Luis Valladares</span>
         <h3>Proceso comercial y metricas</h3>
         <p>Gestion integral del proceso comercial, seguimiento e indicadores clave.</p>
@@ -1438,16 +1409,16 @@
             <p>Diferencia entre vender individualmente y dirigir resultados por medio de personas, procesos y estrategia.</p>
             <span class="module-status" data-exam-status hidden></span>
           </div>
-          <a class="module-link" href="modulo-1-gerencia.html">Abrir modulo</a>
+          <a class="module-link" href="modulo-1-gerencia.html?v=mod1-current">Abrir modulo</a>
         </article>
         <article class="module-card" data-module="1">
           <div>
             <div class="module-num">II</div>
-            <h3>Funciones del Gerente de Comercializacion</h3>
+            <h3>Funciones del Gerente Comercial</h3>
             <p>Plan comercial, gestion de ventas, desarrollo de negocios, clientes estrategicos y mercado institucional.</p>
             <span class="module-status" data-exam-status="modulo2" hidden></span>
           </div>
-          <a class="module-link" href="modulo-2-funciones.html">Abrir modulo</a>
+          <a class="module-link" href="modulo-2-funciones.html?v=mod2-current">Abrir modulo</a>
         </article>
         <article class="module-card" data-module="2">
           <div>
@@ -1455,7 +1426,7 @@
             <h3>Proceso Comercial</h3>
             <p>Ocho etapas para convertir oportunidades en relaciones comerciales sostenibles y bien coordinadas.</p>
           </div>
-          <a class="module-link" href="modulo-3-proceso-comercial.html">Abrir modulo</a>
+          <a class="module-link" href="modulo-3-proceso-comercial.html?v=mod3-current">Abrir modulo</a>
         </article>
         <article class="module-card" data-module="3">
           <div>
@@ -1463,7 +1434,7 @@
             <h3>Liderazgo Comercial</h3>
             <p>Seguimiento, coaching, embudo, reuniones comerciales y toma de decisiones basada en informacion.</p>
           </div>
-          <a class="module-link" href="modulo-4-liderazgo-comercial.html">Abrir modulo</a>
+          <a class="module-link" href="modulo-4-liderazgo-comercial.html?v=mod4-current">Abrir modulo</a>
         </article>
       </div>
 
@@ -1479,19 +1450,17 @@
         <div>
           <div class="eyebrow">Programa de induccion</div>
           <h2 id="agendaModalTitle">Agenda de Gerencia Comercial</h2>
-          <p>Ruta de 4 horas para revisar modulos, tiempos y temas clave.</p>
+          <p>Ruta de formacion para revisar modulos y temas clave.</p>
         </div>
         <button class="agenda-close" id="closeAgendaModal" type="button" aria-label="Cerrar agenda">×</button>
       </div>
       <div class="agenda-body">
         <div class="agenda-summary">
-          <div><strong>4 horas</strong><span>Duracion total</span></div>
           <div><strong>4 modulos</strong><span>Ruta de formacion</span></div>
-          <div><strong>15 min</strong><span>Cierre y conclusiones</span></div>
+          <div><strong>Final</strong><span>Cierre y conclusiones</span></div>
         </div>
         <div class="agenda-modules">
           <article class="agenda-module" style="--agenda-delay: 40ms">
-            <div class="agenda-time">45<span>min</span></div>
             <div>
               <h3>Modulo I: Gerencia</h3>
               <p>Pasar de vender individualmente a dirigir resultados del equipo.</p>
@@ -1503,9 +1472,8 @@
             </div>
           </article>
           <article class="agenda-module" style="--agenda-delay: 110ms">
-            <div class="agenda-time">60<span>min</span></div>
             <div>
-              <h3>Modulo II: Funciones del Gerente de Comercializacion</h3>
+              <h3>Modulo II: Funciones del Gerente Comercial</h3>
               <p>Clarificar responsabilidades estrategicas, tacticas y de supervision.</p>
               <ul>
                 <li>Planificacion y direccion comercial.</li>
@@ -1515,7 +1483,6 @@
             </div>
           </article>
           <article class="agenda-module" style="--agenda-delay: 180ms">
-            <div class="agenda-time">75<span>min</span></div>
             <div>
               <h3>Modulo III: Proceso Comercial</h3>
               <p>Entender las etapas que convierten oportunidades en relaciones comerciales.</p>
@@ -1527,7 +1494,6 @@
             </div>
           </article>
           <article class="agenda-module" style="--agenda-delay: 250ms">
-            <div class="agenda-time">45<span>min</span></div>
             <div>
               <h3>Modulo IV: Liderazgo Comercial</h3>
               <p>Gestionar equipo, seguimiento, indicadores y decisiones con datos.</p>

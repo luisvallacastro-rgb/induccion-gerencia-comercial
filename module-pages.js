@@ -104,6 +104,8 @@ function enhanceLessonLayout() {
 }
 
 function applyCustomLessonContent() {
+  if (document.body.dataset.customModule === "manual") return;
+
   const moduleTitle = document.querySelector("h1")?.textContent?.trim();
   const firstLesson = document.querySelector('.lesson-card[data-lesson="1"]');
   const secondLesson = document.querySelector('.lesson-card[data-lesson="2"]');
@@ -286,7 +288,7 @@ function applyCustomLessonContent() {
       <section class="impact-sheet impact-slide impact-white">
         <span class="sheet-kicker">Hoja resumen</span>
         <h4>Liderar personas para alcanzar objetivos</h4>
-        <p>La funcion principal del Gerente de Comercializacion es movilizar al equipo hacia resultados. El liderazgo efectivo influye positivamente, desarrolla capacidades y crea una cultura orientada al desempeno.</p>
+        <p>La funcion principal del Gerente Comercial es movilizar al equipo hacia resultados. El liderazgo efectivo influye positivamente, desarrolla capacidades y crea una cultura orientada al desempeno.</p>
         <div class="summary-points">
           <div class="summary-point">
             <div class="sheet-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"></path><circle cx="12" cy="7" r="4"></circle><path d="M4 21v-2a3 3 0 0 1 3-3"></path><path d="M20 21v-2a3 3 0 0 0-3-3"></path></svg></div>
@@ -390,7 +392,7 @@ function applyCustomLessonContent() {
       <section class="impact-sheet impact-slide impact-white">
         <span class="sheet-kicker">Hoja resumen</span>
         <h4>La base del rol gerencial comercial</h4>
-        <p>La gestion del Gerente de Comercializacion puede resumirse en cinco pilares que ordenan su responsabilidad: planificar, abrir oportunidades, dirigir ventas, desarrollar clientes y fortalecer el talento comercial.</p>
+        <p>La gestion del Gerente Comercial puede resumirse en cinco pilares que ordenan su responsabilidad: planificar, abrir oportunidades, dirigir ventas, desarrollar clientes y fortalecer el talento comercial.</p>
         <div class="summary-points">
           <div class="summary-point">
             <div class="sheet-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 15l3-3 3 2 5-6"></path></svg></div>
@@ -443,7 +445,7 @@ function applyCustomLessonContent() {
     return;
   }
 
-  if (moduleTitle === "Funciones del Gerente de Comercializacion") {
+  if (moduleTitle === "Funciones del Gerente Comercial") {
     const moduleTwoLessons = [
       {
         lesson: firstLesson,
@@ -566,7 +568,7 @@ function applyCustomLessonContent() {
         <section class="impact-sheet dark impact-slide impact-green">
           <span class="sheet-kicker">Responsabilidad del gerente</span>
           <h4>Construir, coordinar y dar seguimiento al Plan Comercial Anual</h4>
-          <p>El Gerente de Comercializacion participa activamente en la construccion del plan, alineando metas, prioridades y estrategias con los objetivos generales de la organizacion.</p>
+          <p>El Gerente Comercial participa activamente en la construccion del plan, alineando metas, prioridades y estrategias con los objetivos generales de la organizacion.</p>
           <div class="pillar-grid module-two-responsibilities">
             <article class="pillar-card">
               <div class="sheet-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
@@ -783,7 +785,7 @@ function applyCustomLessonContent() {
         <section class="impact-sheet dark impact-slide impact-green">
           <span class="sheet-kicker">Responsabilidad gerencial</span>
           <h4>Liderar oportunidades viables y procesos bien coordinados</h4>
-          <p>El Gerente de Comercializacion debe identificar, evaluar y priorizar oportunidades institucionales que sean viables para la organizacion. Tambien debe coordinar ofertas, seguimiento contractual y relaciones con instituciones clave.</p>
+          <p>El Gerente Comercial debe identificar, evaluar y priorizar oportunidades institucionales que sean viables para la organizacion. Tambien debe coordinar ofertas, seguimiento contractual y relaciones con instituciones clave.</p>
           <div class="pillar-grid module-two-responsibilities">
             <article class="pillar-card">
               <div class="sheet-icon"><svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35"></path><circle cx="11" cy="11" r="8"></circle></svg></div>
@@ -920,9 +922,11 @@ function buildModuleEvaluation() {
   const lessonList = document.querySelector(".lesson-list");
   if (!stepLine || !lessonList || document.querySelector('[data-evaluation-step="true"]')) return;
   const moduleTitle = document.querySelector("h1")?.textContent?.trim() || "Modulo";
-  const evaluationCopy = moduleTitle === "Funciones del Gerente de Comercializacion"
+  const evaluationCopy = moduleTitle === "Funciones del Gerente Comercial"
     ? "El examen confirma que el participante comprende planificacion comercial, gestion de ventas, desarrollo de negocios, clientes estrategicos, licitaciones, talento comercial y decisiones basadas en informacion."
-    : "El examen confirma que el participante comprende el cambio de rol, las funciones estrategicas, el liderazgo de resultados, la gestion medible y los cinco pilares de la gerencia comercial.";
+    : moduleTitle === "Proceso Comercial"
+      ? "El examen confirma que el participante comprende las ocho etapas del proceso comercial, su importancia estrategica y el rol del gerente para dirigir, supervisar y optimizar cada fase."
+      : "El examen confirma que el participante comprende el cambio de rol, las funciones estrategicas, el liderazgo de resultados, la gestion medible y los cinco pilares de la gerencia comercial.";
 
   const evaluationChip = document.createElement("button");
   evaluationChip.className = "step-chip evaluation-step";
@@ -1078,8 +1082,9 @@ const fullscreenSummary = developmentFullscreen.querySelector("p");
 const fullscreenGrid = developmentFullscreen.querySelector(".development-fullscreen-grid");
 const closeFullscreen = developmentFullscreen.querySelector(".fullscreen-close");
 const EXAM_KEYS_BY_MODULE = {
-  Gerencia: "induccion.modulo1.exam.v2",
-  "Funciones del Gerente de Comercializacion": "induccion.modulo2.exam.v1"
+  Gerencia: "induccion.modulo1.exam.v3",
+  "Funciones del Gerente Comercial": "induccion.modulo2.exam.v2",
+  "Proceso Comercial": "induccion.modulo3.exam.v1"
 };
 
 function getCurrentExamKey() {
@@ -1102,7 +1107,7 @@ function radioGroup(name, question, options) {
 }
 
 function getModuleExamQuestions(title) {
-  if (title === "Funciones del Gerente de Comercializacion") {
+  if (title === "Funciones del Gerente Comercial") {
     return [
       {
         question: "1. ¿Que permite la planificacion comercial?",
@@ -1153,45 +1158,140 @@ function getModuleExamQuestions(title) {
         question: "6. ¿Que implica administrar el talento comercial?",
         answer: "a",
         items: [
-          { value: "a", text: "Desarrollar competencias, capacitar, acompanar y fortalecer desempeno." },
+          { value: "a", text: "Reclutar, inducir, capacitar, supervisar politicas y administrar recursos del departamento." },
           { value: "b", text: "Evitar capacitaciones para ahorrar tiempo." },
           { value: "c", text: "Dejar al equipo sin seguimiento." }
         ]
       },
       {
-        question: "7. ¿Que aporta la toma de decisiones basada en informacion?",
+        question: "7. ¿Para que sirve el modelo SBI en la retroalimentacion?",
         answer: "b",
         items: [
-          { value: "a", text: "Mas intuicion y menos control." },
-          { value: "b", text: "Mayor precision, control de riesgos y acciones correctivas." },
-          { value: "c", text: "Menos claridad sobre resultados." }
+          { value: "a", text: "Para dar opiniones generales sin evidencia." },
+          { value: "b", text: "Para describir situacion, comportamiento e impacto de forma objetiva." },
+          { value: "c", text: "Para evitar conversaciones de mejora." }
         ]
       },
       {
-        question: "8. ¿Cual responsabilidad conecta plan comercial y seguimiento?",
+        question: "8. ¿Cual es el objetivo del manejo de conflictos dentro del equipo comercial?",
         answer: "c",
         items: [
-          { value: "a", text: "Delegar todo sin indicadores." },
-          { value: "b", text: "Esperar resultados al final del periodo." },
-          { value: "c", text: "Definir metas, revisar avance y ajustar prioridades." }
+          { value: "a", text: "Definir ganadores y perdedores." },
+          { value: "b", text: "Evitar escuchar a las partes." },
+          { value: "c", text: "Preservar el desempeno colectivo mediante dialogo, acuerdos y seguimiento." }
         ]
       },
       {
-        question: "9. ¿Que debe evitar un gerente en la gestion de ventas?",
+        question: "9. ¿Que representa una alerta amarilla en el semaforo de personal?",
         answer: "a",
         items: [
-          { value: "a", text: "Mirar solo cierres y descuidar oportunidades en proceso." },
-          { value: "b", text: "Revisar indicadores de avance." },
-          { value: "c", text: "Acompanamiento comercial al equipo." }
+          { value: "a", text: "Senales de riesgo que requieren atencion." },
+          { value: "b", text: "Desempeno normal y cumplimiento de objetivos." },
+          { value: "c", text: "Problemas criticos de permanencia ya confirmados." }
         ]
       },
       {
-        question: "10. ¿Que resume mejor el alcance del Gerente de Comercializacion?",
+        question: "10. ¿Que fuentes debe utilizar el gerente para decisiones basadas en informacion?",
         answer: "b",
         items: [
-          { value: "a", text: "Vender individualmente sin dirigir personas ni procesos." },
-          { value: "b", text: "Planificar, supervisar ventas, desarrollar negocios, clientes, talento y decisiones con informacion." },
-          { value: "c", text: "Atender solo tareas administrativas sin impacto comercial." }
+          { value: "a", text: "Solo percepciones personales del equipo." },
+          { value: "b", text: "CRM, reportes comerciales, Power BI, indicadores e informes de mercado." },
+          { value: "c", text: "Unicamente comentarios informales de clientes." }
+        ]
+      }
+    ];
+  }
+
+  if (title === "Proceso Comercial") {
+    return [
+      {
+        question: "1. ¿Cual es el objetivo central del proceso comercial?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Ejecutar ventas sin seguimiento ni coordinacion interna." },
+          { value: "b", text: "Gestionar oportunidades desde prospectos hasta fidelizacion de clientes." },
+          { value: "c", text: "Concentrarse solo en el cierre de ventas." }
+        ]
+      },
+      {
+        question: "2. ¿Que aporta la prospeccion al crecimiento comercial?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Genera nuevas oportunidades y alimenta el embudo comercial." },
+          { value: "b", text: "Reduce la necesidad de buscar nuevos clientes." },
+          { value: "c", text: "Elimina la segmentacion de mercado." }
+        ]
+      },
+      {
+        question: "3. ¿Que debe lograr el contacto inicial?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Cerrar la venta sin diagnostico." },
+          { value: "b", text: "Solicitar informacion operativa interna." },
+          { value: "c", text: "Generar confianza, interes y apertura para avanzar." }
+        ]
+      },
+      {
+        question: "4. ¿Por que es clave la deteccion de necesidades?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Porque permite presentar cualquier solucion disponible." },
+          { value: "b", text: "Porque permite construir propuestas alineadas al cliente." },
+          { value: "c", text: "Porque sustituye la postventa." }
+        ]
+      },
+      {
+        question: "5. ¿Que debe comunicar una presentacion de solucion efectiva?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Valor, beneficios, diferenciadores y resultados esperados." },
+          { value: "b", text: "Solo precios y caracteristicas tecnicas." },
+          { value: "c", text: "Solo urgencia para cerrar." }
+        ]
+      },
+      {
+        question: "6. ¿Como deben entenderse las objeciones?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Como rechazo definitivo del cliente." },
+          { value: "b", text: "Como una razon para abandonar el negocio." },
+          { value: "c", text: "Como oportunidades para aclarar, profundizar y generar confianza." }
+        ]
+      },
+      {
+        question: "7. ¿Que representa el cierre de ventas?",
+        answer: "b",
+        items: [
+          { value: "a", text: "El final absoluto de la relacion comercial." },
+          { value: "b", text: "La formalizacion del acuerdo comercial y sus condiciones." },
+          { value: "c", text: "Una etapa sin impacto en ingresos." }
+        ]
+      },
+      {
+        question: "8. ¿Que evita un buen compilado de informacion?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Errores operativos, reprocesos y mala coordinacion interna." },
+          { value: "b", text: "La comunicacion entre areas." },
+          { value: "c", text: "La satisfaccion del cliente." }
+        ]
+      },
+      {
+        question: "9. ¿Que busca la postventa?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Finalizar toda comunicacion con el cliente." },
+          { value: "b", text: "Evitar reclamos para no generar trabajo." },
+          { value: "c", text: "Asegurar satisfaccion, recompra y relaciones de largo plazo." }
+        ]
+      },
+      {
+        question: "10. ¿Cual es el rol del gerente comercial en el proceso?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Supervisar solo vendedores y no el proceso completo." },
+          { value: "b", text: "Dirigir, supervisar, coordinar, medir y mejorar cada etapa." },
+          { value: "c", text: "Delegar todo el seguimiento sin indicadores." }
         ]
       }
     ];
@@ -1204,16 +1304,16 @@ function getModuleExamQuestions(title) {
       question: "1. ¿Que cambio central ocurre al pasar de vendedor a gerente comercial?",
       answer: "b",
       items: [
-        { value: "a", text: "Vender mas personalmente para superar al equipo." },
-        { value: "b", text: "Responder por resultados del equipo, procesos y prioridades." },
+        { value: "a", text: "Vender mas personalmente para superar a todos los vendedores." },
+        { value: "b", text: "Pasar de resultados individuales a dirigir personas, procesos y resultados del equipo." },
         { value: "c", text: "Dejar de analizar resultados comerciales." }
       ]
     },
     {
-      question: "2. ¿Cual es una actividad principalmente operativa?",
+      question: "2. ¿Cual es una actividad principalmente operativa dentro del area comercial?",
       answer: "a",
       items: [
-        { value: "a", text: "Realizar llamadas comerciales y seguimiento de oportunidades." },
+        { value: "a", text: "Realizar llamadas, visitas, cotizaciones y seguimiento de oportunidades." },
         { value: "b", text: "Definir metas de ventas del periodo." },
         { value: "c", text: "Disenar estrategias de crecimiento." }
       ]
@@ -1237,57 +1337,57 @@ function getModuleExamQuestions(title) {
       ]
     },
     {
-      question: "5. ¿Que diferencia a una organizacion competitiva de una reactiva?",
+      question: "5. ¿Que debe hacer un lider comercial efectivo?",
       answer: "a",
       items: [
-        { value: "a", text: "La capacidad de anticiparse a cambios del entorno." },
-        { value: "b", text: "La ausencia de indicadores comerciales." },
-        { value: "c", text: "La dependencia de resultados individuales." }
+        { value: "a", text: "Comunicar objetivos, desarrollar habilidades, dar seguimiento y corregir desviaciones." },
+        { value: "b", text: "Exigir resultados sin acompanamiento ni orientacion." },
+        { value: "c", text: "Atender solo sus propias oportunidades de venta." }
       ]
     },
     {
-      question: "6. ¿Que implica liderar resultados comerciales?",
+      question: "6. ¿Que propone el liderazgo situacional?",
       answer: "c",
       items: [
-        { value: "a", text: "Supervisar solo al final del mes." },
-        { value: "b", text: "Exigir resultados sin acompanar al equipo." },
-        { value: "c", text: "Comunicar, influir, desarrollar capacidades y dar seguimiento permanente." }
+        { value: "a", text: "Dirigir a todas las personas de la misma forma." },
+        { value: "b", text: "Delegar siempre, aunque el colaborador no tenga experiencia." },
+        { value: "c", text: "Adaptar el estilo de direccion segun competencia y compromiso." }
       ]
     },
     {
-      question: "7. ¿Cual es un elemento clave del liderazgo comercial efectivo?",
+      question: "7. ¿Cual es la diferencia entre autoridad formal e influencia real?",
       answer: "a",
       items: [
-        { value: "a", text: "Desarrollo del talento humano y disciplina en la ejecucion." },
-        { value: "b", text: "Evitar resolver conflictos." },
-        { value: "c", text: "Delegar sin seguimiento." }
+        { value: "a", text: "La autoridad depende del cargo; la influencia depende de credibilidad, coherencia y ejemplo." },
+        { value: "b", text: "La autoridad y la influencia son exactamente lo mismo." },
+        { value: "c", text: "La influencia se obtiene solo imponiendo instrucciones." }
       ]
     },
     {
-      question: "8. ¿Que exige la gestion basada en resultados?",
+      question: "8. ¿Por que la motivacion del equipo comercial no debe dejarse al azar?",
       answer: "b",
       items: [
-        { value: "a", text: "Tomar decisiones por percepcion." },
-        { value: "b", text: "Medir avances, analizar desviaciones y aplicar acciones correctivas." },
-        { value: "c", text: "Evitar indicadores para no presionar al equipo." }
+        { value: "a", text: "Porque todos los vendedores se motivan exactamente por los mismos factores." },
+        { value: "b", text: "Porque cada colaborador puede responder a motivadores distintos como ingresos, reconocimiento, autonomia, crecimiento o pertenencia." },
+        { value: "c", text: "Porque la motivacion no afecta el desempeno comercial." }
       ]
     },
     {
-      question: "9. ¿Cual perspectiva debe revisar el gerente en una gestion basada en resultados?",
+      question: "9. ¿Cual de estos es uno de los cinco pilares de la gerencia comercial?",
       answer: "c",
       items: [
-        { value: "a", text: "Solo las ventas personales del gerente." },
-        { value: "b", text: "Solo la cantidad de reuniones internas." },
-        { value: "c", text: "Ventas, crecimiento, productividad, captacion, retencion y conversion." }
+        { value: "a", text: "Improvisacion comercial permanente." },
+        { value: "b", text: "Ausencia de seguimiento al equipo." },
+        { value: "c", text: "Planificacion comercial, gestion de ventas, desarrollo de negocios, clientes y talento comercial." }
       ]
     },
     {
-      question: "10. ¿Cual de estos pertenece a los cinco pilares de la gerencia comercial?",
+      question: "10. ¿Que resume mejor la conclusion del modulo?",
       answer: "a",
       items: [
-        { value: "a", text: "Planificacion comercial, clientes y talento comercial." },
-        { value: "b", text: "Improvisacion, ausencia de seguimiento y ventas aisladas." },
-        { value: "c", text: "Solo prospeccion y cierre personal." }
+        { value: "a", text: "La gerencia comercial exige una transformacion profesional hacia liderazgo, estrategia, talento y resultados sostenibles." },
+        { value: "b", text: "El gerente debe seguir siendo principalmente un vendedor individual." },
+        { value: "c", text: "El cambio de cargo no requiere nuevas competencias." }
       ]
     }
   ];
