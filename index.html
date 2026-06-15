@@ -58,7 +58,7 @@
       top: 0;
       z-index: 20;
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: 1fr auto;
       align-items: center;
       gap: 16px;
       padding: 10px clamp(16px, 3vw, 40px);
@@ -68,15 +68,9 @@
       box-shadow: 0 1px 0 rgba(255,255,255,.08);
     }
 
-    .brand {
-      font-weight: 800;
-      letter-spacing: 0;
-      white-space: nowrap;
-    }
-
     .nav {
       display: flex;
-      justify-content: center;
+      justify-content: start;
       gap: 6px;
       min-width: 0;
       overflow-x: auto;
@@ -1230,10 +1224,6 @@
         grid-template-columns: 1fr auto;
       }
 
-      .brand {
-        grid-column: 1;
-      }
-
       .nav {
         grid-column: 1 / -1;
         justify-content: start;
@@ -1380,7 +1370,6 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">Gerencia Comercial</div>
     <nav class="nav" aria-label="Navegacion principal">
       <button id="openAgendaNav" type="button">Agenda</button>
       <a href="#modulos">Modulos</a>
