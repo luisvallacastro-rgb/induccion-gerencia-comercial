@@ -23,6 +23,25 @@ body {
   line-height: 1.5;
 }
 
+body.motion-ready {
+  --mx: 50%;
+  --my: 50%;
+}
+
+body.motion-ready::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(243,197,101,.18), transparent 28%),
+    radial-gradient(circle at calc(100% - var(--mx)) calc(100% - var(--my)), rgba(4,122,115,.14), transparent 24%),
+    linear-gradient(135deg, rgba(255,255,255,.35), transparent 42%);
+  opacity: .72;
+  transition: background-position .2s ease;
+}
+
 .module-hero {
   min-height: 56vh;
   color: var(--white);
@@ -31,6 +50,7 @@ body {
     url("assets/induccion-comercial-hero.png") center / cover;
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .module-hero::before {
@@ -40,6 +60,21 @@ body {
   background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
   background-size: 64px 64px;
   animation: drift 18s linear infinite;
+}
+
+.module-hero::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 20%, rgba(255,255,255,.11) 38%, transparent 54%),
+    radial-gradient(circle at 72% 20%, rgba(243,197,101,.18), transparent 24%),
+    radial-gradient(circle at 18% 82%, rgba(4,122,115,.3), transparent 28%);
+  mix-blend-mode: screen;
+  opacity: .72;
+  animation: auroraSweep 9s ease-in-out infinite alternate;
 }
 
 .module-nav {
@@ -58,6 +93,36 @@ body {
   border-radius: var(--radius);
   padding: 9px 12px;
   background: rgba(255,255,255,.1);
+}
+
+.module-nav button {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: var(--radius);
+  color: var(--white);
+  background: rgba(255,255,255,.1);
+  cursor: pointer;
+  transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.module-nav button:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.34);
+  box-shadow: 0 14px 28px rgba(0,0,0,.16);
+}
+
+.module-nav button svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .module-hero-inner {
@@ -93,6 +158,51 @@ h1 {
   margin: 14px 0 16px;
   font-size: clamp(2.4rem, 7vw, 5.4rem);
   line-height: .96;
+}
+
+.motion-ready h1 {
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 44%, #dff8f4 58%, #f5d27d 76%, #ffffff 100%);
+  background-size: 220% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: titleSheen 7s ease-in-out infinite;
+}
+
+.hero-dynamic {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: 22px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 999px;
+  color: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.11);
+  box-shadow: 0 16px 38px rgba(0,0,0,.18);
+  backdrop-filter: blur(14px);
+  animation: dynamicEnter .72s ease both .28s;
+}
+
+.hero-dynamic-label {
+  color: rgba(255,255,255,.7);
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero-dynamic-word {
+  min-width: 170px;
+  color: var(--gold);
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.hero-dynamic-word.switching {
+  animation: wordSwitch .42s ease both;
 }
 
 .module-result-badge {
@@ -141,6 +251,39 @@ h1 {
   box-shadow: 0 18px 45px rgba(18,32,38,.1);
 }
 
+.motion-ready .intro-card,
+.motion-ready .learning-panel,
+.motion-ready .lesson-card,
+.motion-ready .impact-sheet,
+.motion-ready .evaluation-info-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.motion-ready .intro-card::before,
+.motion-ready .learning-panel::before,
+.motion-ready .lesson-card::before,
+.motion-ready .impact-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent, rgba(255,255,255,.48), transparent),
+    radial-gradient(circle at var(--mx) var(--my), rgba(243,197,101,.14), transparent 30%);
+  opacity: 0;
+  transform: translateX(-36%);
+  transition: opacity .35s ease, transform .7s ease;
+}
+
+.motion-ready .intro-card:hover::before,
+.motion-ready .learning-panel:hover::before,
+.motion-ready .lesson-card:hover::before,
+.motion-ready .impact-sheet:hover::before {
+  opacity: .85;
+  transform: translateX(36%);
+}
+
 .intro-card {
   padding: clamp(20px, 3vw, 32px);
 }
@@ -158,6 +301,14 @@ h1 {
   overflow: hidden;
   background: #0d2026;
   box-shadow: 0 18px 42px rgba(18,32,38,.12);
+  transform-style: preserve-3d;
+  transition: transform .42s ease, box-shadow .42s ease, border-color .42s ease;
+}
+
+.objective-video:hover {
+  border-color: rgba(243,197,101,.55);
+  transform: translateY(-5px) perspective(900px) rotateX(1.5deg) rotateY(-1.5deg);
+  box-shadow: 0 28px 60px rgba(18,32,38,.22);
 }
 
 .objective-video video {
@@ -174,6 +325,7 @@ h1 {
   color: var(--white);
   font-weight: 800;
   font-size: .92rem;
+  background: linear-gradient(90deg, rgba(4,122,115,.72), rgba(32,61,82,.92));
 }
 
 .intro-card h2,
@@ -290,6 +442,7 @@ h1 {
   overflow: hidden;
   margin-bottom: 18px;
   grid-column: 1 / -1;
+  position: relative;
 }
 
 .progress-fill {
@@ -298,7 +451,18 @@ h1 {
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--teal), var(--green), var(--gold));
-  transition: width .38s ease;
+  position: relative;
+  overflow: hidden;
+  transition: width .58s cubic-bezier(.22, 1, .36, 1);
+}
+
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+  transform: translateX(-100%);
+  animation: progressShine 2.6s ease-in-out infinite;
 }
 
 .step-line {
@@ -319,7 +483,18 @@ h1 {
   color: var(--muted);
   text-align: left;
   font: inherit;
-  transition: transform .22s ease, border-color .22s ease, background .22s ease, color .22s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform .24s ease, border-color .24s ease, background .24s ease, color .24s ease, box-shadow .24s ease;
+}
+
+.step-chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(243,197,101,.24), transparent 34%);
+  opacity: 0;
+  transition: opacity .28s ease;
 }
 
 .step-chip:hover,
@@ -328,6 +503,11 @@ h1 {
   color: var(--ink);
   background: #ffffff;
   border-color: rgba(4,122,115,.48);
+}
+
+.step-chip:hover::before,
+.step-chip.active::before {
+  opacity: 1;
 }
 
 .step-chip.active {
@@ -401,6 +581,7 @@ h1 {
 
 .development-fullscreen.open {
   display: block;
+  animation: fullscreenFade .34s ease both;
 }
 
 .development-fullscreen-inner {
@@ -443,6 +624,15 @@ h1 {
   border-radius: var(--radius);
   background: #f7fbf9;
   color: var(--teal);
+  cursor: pointer;
+  transition: transform .24s ease, box-shadow .24s ease, background .24s ease, border-color .24s ease;
+}
+
+.fullscreen-close:hover,
+.icon-maximize:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(4,122,115,.42);
+  box-shadow: 0 14px 28px rgba(18,32,38,.14);
 }
 
 .fullscreen-close {
@@ -496,6 +686,10 @@ body.lesson-fullscreen {
 
 .lesson-card.complete {
   border-color: rgba(4,122,115,.45);
+}
+
+.lesson-card.active .lesson-development {
+  animation: contentRefresh .5s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .lesson-top {
@@ -608,7 +802,7 @@ body.lesson-fullscreen {
 }
 
 .impact-sheet:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px) scale(1.006);
   border-color: rgba(4,122,115,.22);
   box-shadow: 0 28px 70px rgba(18,32,38,.13);
 }
@@ -618,6 +812,7 @@ body.lesson-fullscreen {
   background:
     linear-gradient(135deg, rgba(4,122,115,.96), rgba(32,61,82,.96)),
     var(--navy);
+  box-shadow: 0 24px 70px rgba(18,32,38,.22);
 }
 
 .impact-sheet.dark p,
@@ -643,13 +838,7 @@ body.lesson-fullscreen {
 }
 
 .sheet-kicker::before {
-  content: "";
-  width: 26px;
-  height: 3px;
-  border-radius: 999px;
-  background: var(--gold);
-  transform-origin: left center;
-  animation: lineSweep .72s ease both;
+  content: none;
 }
 
 .impact-sheet h4 {
@@ -678,6 +867,11 @@ body.lesson-fullscreen {
   opacity: 0;
   transform: translateY(12px);
   animation: itemRise .58s ease both;
+  transition: transform .28s ease;
+}
+
+.summary-point:hover {
+  transform: translateX(5px);
 }
 
 .summary-point:nth-child(2) { animation-delay: .08s; }
@@ -693,12 +887,30 @@ body.lesson-fullscreen {
   border-radius: var(--radius);
   color: var(--teal);
   background: rgba(4,122,115,.1);
-  transition: transform .34s ease, background .34s ease, color .34s ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform .34s ease, background .34s ease, color .34s ease, box-shadow .34s ease;
+}
+
+.sheet-icon::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 180deg, transparent, rgba(243,197,101,.55), transparent);
+  opacity: 0;
+  animation: iconOrbit 4s linear infinite;
+  transition: opacity .28s ease;
 }
 
 .summary-point:hover .sheet-icon,
 .pillar-card:hover .sheet-icon {
   transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 12px 26px rgba(4,122,115,.16);
+}
+
+.summary-point:hover .sheet-icon::after,
+.pillar-card:hover .sheet-icon::after {
+  opacity: .9;
 }
 
 .impact-sheet.dark .sheet-icon {
@@ -714,6 +926,8 @@ body.lesson-fullscreen {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
+  position: relative;
+  z-index: 1;
 }
 
 .summary-point strong {
@@ -1064,6 +1278,7 @@ body.lesson-fullscreen {
 .module-one-deck .impact-sheet:nth-child(11) { --sheet-delay: .8s; }
 .module-one-deck .impact-sheet:nth-child(12) { --sheet-delay: .88s; }
 .module-one-deck .impact-sheet:nth-child(13) { --sheet-delay: .96s; }
+.module-one-deck .impact-sheet:nth-child(14) { --sheet-delay: 1.04s; }
 
 .module-one-deck .impact-sheet h4,
 .module-one-deck .impact-sheet > p {
@@ -1746,6 +1961,45 @@ body.lesson-fullscreen {
 
 @keyframes badgePulse {
   from { opacity: 0; transform: translateY(10px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes auroraSweep {
+  from { transform: translate3d(-5%, -2%, 0) rotate(-2deg); }
+  to { transform: translate3d(5%, 2%, 0) rotate(2deg); }
+}
+
+@keyframes titleSheen {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+@keyframes dynamicEnter {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes wordSwitch {
+  0% { opacity: 0; transform: translateY(9px); filter: blur(5px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-110%); }
+  48%, 100% { transform: translateX(110%); }
+}
+
+@keyframes iconOrbit {
+  to { transform: rotate(1turn); }
+}
+
+@keyframes fullscreenFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes contentRefresh {
+  from { opacity: .7; transform: translateY(10px) scale(.995); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 

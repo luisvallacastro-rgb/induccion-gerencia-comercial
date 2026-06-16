@@ -1,4 +1,145 @@
 const revealTargets = document.querySelectorAll(".reveal");
+const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+function enableModernMotion() {
+  if (motionQuery.matches) return;
+
+  document.body.classList.add("motion-ready");
+
+  const hero = document.querySelector(".module-hero-inner");
+  const heroParagraph = hero?.querySelector("p");
+  if (hero && heroParagraph && !hero.querySelector(".hero-dynamic")) {
+    const moduleTitle = document.querySelector("h1")?.textContent?.trim() || "Gerencia";
+    const vocabulary = moduleTitle === "Liderazgo Comercial"
+      ? ["liderazgo activo", "seguimiento inteligente", "indicadores vivos", "decisiones con datos"]
+      : moduleTitle === "Proceso Comercial"
+        ? ["8 etapas", "oportunidades claras", "seguimiento visual", "postventa medible"]
+        : moduleTitle === "Funciones del Gerente Comercial"
+          ? ["planificacion", "ventas", "clientes", "talento comercial"]
+          : ["vision gerencial", "estrategia", "liderazgo", "resultados"];
+    const dynamic = document.createElement("div");
+    dynamic.className = "hero-dynamic";
+    dynamic.innerHTML = `
+      <span class="hero-dynamic-label">Enfoque</span>
+      <span class="hero-dynamic-word">${vocabulary[0]}</span>
+    `;
+    heroParagraph.insertAdjacentElement("afterend", dynamic);
+
+    const word = dynamic.querySelector(".hero-dynamic-word");
+    let index = 0;
+    window.setInterval(() => {
+      index = (index + 1) % vocabulary.length;
+      word.classList.remove("switching");
+      void word.offsetWidth;
+      word.textContent = vocabulary[index];
+      word.classList.add("switching");
+    }, 2400);
+  }
+
+  window.addEventListener("pointermove", (event) => {
+    const x = Math.round((event.clientX / window.innerWidth) * 100);
+    const y = Math.round((event.clientY / window.innerHeight) * 100);
+    document.body.style.setProperty("--mx", `${x}%`);
+    document.body.style.setProperty("--my", `${y}%`);
+  }, { passive: true });
+}
+
+enableModernMotion();
+
+function installFullscreenControl() {
+  const nav = document.querySelector(".module-nav");
+  if (!nav || nav.querySelector("[data-module-fullscreen]")) return;
+  const presentationModeKey = "induccion.presentationMode.active";
+  const presentationNavigationKey = "induccion.presentationMode.navigating";
+
+  const wantsPresentationMode = () => localStorage.getItem(presentationModeKey) === "true";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.dataset.moduleFullscreen = "true";
+  button.title = "Pantalla completa";
+  button.setAttribute("aria-label", "Pantalla completa");
+  button.innerHTML = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M8 3H3v5"></path>
+      <path d="M16 3h5v5"></path>
+      <path d="M21 16v5h-5"></path>
+      <path d="M3 16v5h5"></path>
+    </svg>
+  `;
+  nav.appendChild(button);
+
+  const updateState = () => {
+    const active = Boolean(document.fullscreenElement) || wantsPresentationMode();
+    button.title = active ? "Salir de pantalla completa" : "Pantalla completa";
+    button.setAttribute("aria-label", button.title);
+  };
+
+  function armPresentationResume() {
+    const resume = async () => {
+      if (!wantsPresentationMode() || document.fullscreenElement) return;
+      try {
+        await document.documentElement.requestFullscreen();
+      } catch (error) {
+        return;
+      }
+      updateState();
+    };
+    window.addEventListener("pointerdown", resume, { once: true });
+    window.addEventListener("keydown", resume, { once: true });
+  }
+
+  async function setPresentationMode(active) {
+    localStorage.setItem(presentationModeKey, active ? "true" : "false");
+    document.body.classList.toggle("presenting", active);
+
+    if (active && !document.fullscreenElement) {
+      try {
+        await document.documentElement.requestFullscreen();
+      } catch (error) {
+        armPresentationResume();
+      }
+    }
+
+    if (!active && document.fullscreenElement) {
+      await document.exitFullscreen();
+    }
+
+    updateState();
+  }
+
+  button.addEventListener("click", () => {
+    setPresentationMode(!wantsPresentationMode());
+  });
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+    if (!link || !wantsPresentationMode()) return;
+    const url = new URL(link.href, window.location.href);
+    if (url.origin === window.location.origin) {
+      sessionStorage.setItem(presentationNavigationKey, "true");
+    }
+  }, true);
+
+  document.addEventListener("fullscreenchange", () => {
+    const navigating = sessionStorage.getItem(presentationNavigationKey) === "true";
+    if (!document.fullscreenElement && wantsPresentationMode() && document.body.classList.contains("presenting") && !navigating) {
+      localStorage.setItem(presentationModeKey, "false");
+      document.body.classList.remove("presenting");
+    }
+    updateState();
+  });
+
+  if (wantsPresentationMode()) {
+    document.body.classList.add("presenting");
+    armPresentationResume();
+  }
+
+  updateState();
+  window.setTimeout(() => sessionStorage.removeItem(presentationNavigationKey), 900);
+}
+
+installFullscreenControl();
 
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver((entries) => {
@@ -926,7 +1067,9 @@ function buildModuleEvaluation() {
     ? "El examen confirma que el participante comprende planificacion comercial, gestion de ventas, desarrollo de negocios, clientes estrategicos, licitaciones, talento comercial y decisiones basadas en informacion."
     : moduleTitle === "Proceso Comercial"
       ? "El examen confirma que el participante comprende las ocho etapas del proceso comercial, su importancia estrategica y el rol del gerente para dirigir, supervisar y optimizar cada fase."
-      : "El examen confirma que el participante comprende el cambio de rol, las funciones estrategicas, el liderazgo de resultados, la gestion medible y los cinco pilares de la gerencia comercial.";
+      : moduleTitle === "Liderazgo Comercial"
+        ? "El examen confirma que el participante comprende liderazgo comercial, seguimiento, reuniones, indicadores, productividad, postventa, herramientas de gestion, decisiones basadas en datos, planes de accion y cultura de resultados."
+        : "El examen confirma que el participante comprende el cambio de rol, las funciones estrategicas, el liderazgo de resultados, la gestion medible y los cinco pilares de la gerencia comercial.";
 
   const evaluationChip = document.createElement("button");
   evaluationChip.className = "step-chip evaluation-step";
@@ -1084,7 +1227,8 @@ const closeFullscreen = developmentFullscreen.querySelector(".fullscreen-close")
 const EXAM_KEYS_BY_MODULE = {
   Gerencia: "induccion.modulo1.exam.v3",
   "Funciones del Gerente Comercial": "induccion.modulo2.exam.v2",
-  "Proceso Comercial": "induccion.modulo3.exam.v1"
+  "Proceso Comercial": "induccion.modulo3.exam.v1",
+  "Liderazgo Comercial": "induccion.liderazgo-comercial.exam.v1"
 };
 
 function getCurrentExamKey() {
@@ -1292,6 +1436,101 @@ function getModuleExamQuestions(title) {
           { value: "a", text: "Supervisar solo vendedores y no el proceso completo." },
           { value: "b", text: "Dirigir, supervisar, medir y mejorar cada etapa desde prospeccion hasta postventa." },
           { value: "c", text: "Delegar todo el seguimiento sin indicadores." }
+        ]
+      }
+    ];
+  }
+
+  if (title === "Liderazgo Comercial") {
+    return [
+      {
+        question: "1. ¿Que exige la gestion comercial moderna del gerente?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Revisar unicamente ventas cerradas al final del mes." },
+          { value: "b", text: "Combinar liderazgo, seguimiento, analisis de informacion y decisiones oportunas." },
+          { value: "c", text: "Depender solo de percepciones personales." }
+        ]
+      },
+      {
+        question: "2. ¿Cuales son las tres dimensiones del rol del Gerente Comercial como lider?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Direccion, acompanamiento y control." },
+          { value: "b", text: "Improvisacion, presion y ausencia de seguimiento." },
+          { value: "c", text: "Ventas personales, cotizaciones propias y cierre individual." }
+        ]
+      },
+      {
+        question: "3. ¿Cual es la finalidad del seguimiento comercial?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Fiscalizar al vendedor sin generar acciones." },
+          { value: "b", text: "Revisar oportunidades cuando ya se perdieron." },
+          { value: "c", text: "Asegurar que actividades y oportunidades avancen en tiempo y forma." }
+        ]
+      },
+      {
+        question: "4. ¿En que se enfoca principalmente una reunion semanal de seguimiento?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Solo en revisar resultados anuales." },
+          { value: "b", text: "Actividades recientes, oportunidades activas, bloqueos y compromisos de la semana." },
+          { value: "c", text: "En sustituir la gestion diaria del vendedor." }
+        ]
+      },
+      {
+        question: "5. ¿Que permite la gestion por indicadores comerciales?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Medir desempeno, detectar desviaciones, priorizar acciones y tomar decisiones objetivas." },
+          { value: "b", text: "Evitar la medicion del equipo comercial." },
+          { value: "c", text: "Trabajar solamente con intuicion." }
+        ]
+      },
+      {
+        question: "6. ¿Que muestran los indicadores del embudo comercial?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Solo la facturacion ya cerrada." },
+          { value: "b", text: "Unicamente la satisfaccion del cliente." },
+          { value: "c", text: "El avance de oportunidades desde prospeccion hasta cierre y las ventas futuras posibles." }
+        ]
+      },
+      {
+        question: "7. ¿Para que sirven los indicadores de clientes?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Para eliminar estrategias de fidelizacion." },
+          { value: "b", text: "Para medir captacion, retencion, recuperacion, crecimiento de cartera y satisfaccion." },
+          { value: "c", text: "Para evitar el desarrollo de cuentas clave." }
+        ]
+      },
+      {
+        question: "8. ¿Que evaluan los indicadores de productividad del equipo?",
+        answer: "a",
+        items: [
+          { value: "a", text: "Actividades, productividad por vendedor, conversion individual y efectividad comercial." },
+          { value: "b", text: "Solo la antiguedad del vendedor." },
+          { value: "c", text: "Unicamente la cantidad de clientes existentes." }
+        ]
+      },
+      {
+        question: "9. ¿Que aportan Power BI, CRM y herramientas de gestion al gerente?",
+        answer: "c",
+        items: [
+          { value: "a", text: "Reemplazan por completo el criterio gerencial." },
+          { value: "b", text: "Ocultan tendencias y oportunidades activas." },
+          { value: "c", text: "Centralizan informacion, visualizan indicadores, comparan desempeno y apoyan decisiones." }
+        ]
+      },
+      {
+        question: "10. ¿Que debe incluir un plan de accion comercial?",
+        answer: "b",
+        items: [
+          { value: "a", text: "Solo una instruccion general sin responsable ni fecha." },
+          { value: "b", text: "Problema, indicador afectado, causa, accion, responsable, fecha, resultado esperado y seguimiento." },
+          { value: "c", text: "Unicamente el resultado final de ventas." }
         ]
       }
     ];

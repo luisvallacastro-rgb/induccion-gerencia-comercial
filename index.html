@@ -58,7 +58,7 @@
       top: 0;
       z-index: 20;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr;
       align-items: center;
       gap: 16px;
       padding: 10px clamp(16px, 3vw, 40px);
@@ -66,14 +66,6 @@
       background: rgba(21, 33, 38, .92);
       backdrop-filter: blur(14px);
       box-shadow: 0 1px 0 rgba(255,255,255,.08);
-    }
-
-    .nav {
-      display: flex;
-      justify-content: start;
-      gap: 6px;
-      min-width: 0;
-      overflow-x: auto;
     }
 
     .topbar-controls {
@@ -84,17 +76,29 @@
       min-width: 0;
     }
 
-    .nav a,
-    .nav button,
     .control-btn {
-      min-height: 38px;
+      width: 42px;
+      height: 42px;
+      min-height: 42px;
       border: 1px solid rgba(255,255,255,.16);
       border-radius: 8px;
       color: var(--white);
       background: rgba(255,255,255,.07);
       text-decoration: none;
-      padding: 8px 12px;
-      white-space: nowrap;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+      transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+    }
+
+    .control-btn svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .control-btn.reset {
@@ -103,10 +107,11 @@
       background: rgba(204, 93, 79, .18);
     }
 
-    .nav a:hover,
-    .nav button:hover,
     .control-btn:hover {
+      transform: translateY(-2px);
       background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.28);
+      box-shadow: 0 14px 28px rgba(0,0,0,.16);
     }
 
     .control-btn.reset:hover {
@@ -506,6 +511,11 @@
       animation: rise .54s ease both;
     }
 
+    .module-status:empty,
+    .module-status[hidden] {
+      display: none;
+    }
+
     .module-status.failed {
       color: var(--white);
       background: #b44a3f;
@@ -514,7 +524,6 @@
     .module-card .module-link {
       width: 100%;
       min-height: 42px;
-      margin-top: 18px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #eef5f3;
@@ -524,6 +533,49 @@
       align-items: center;
       justify-content: center;
       text-decoration: none;
+    }
+
+    .module-actions {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      margin-top: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .agenda-card-btn {
+      width: 46px;
+      min-height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid rgba(4,122,115,.2);
+      border-radius: 8px;
+      color: var(--teal);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(243,197,101,.28), transparent 46%),
+        rgba(238,245,243,.92);
+      box-shadow: 0 10px 24px rgba(21,33,38,.08);
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .agenda-card-btn svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .agenda-card-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      border-color: rgba(243,197,101,.58);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(243,197,101,.46), transparent 48%),
+        rgba(255,255,255,.96);
+      box-shadow: 0 18px 34px rgba(21,33,38,.15);
     }
 
     .panel {
@@ -943,14 +995,17 @@
     }
 
     .agenda-dialog {
-      width: min(1160px, calc(100vw - 28px));
-      height: min(92dvh, 820px);
+      width: min(1040px, calc(100vw - 28px));
+      height: min(88dvh, 760px);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.26);
+      border-radius: 18px;
       color: var(--white);
-      background: rgba(18, 34, 39, .96);
-      box-shadow: 0 30px 90px rgba(0,0,0,.38);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06)),
+        rgba(12, 29, 34, .68);
+      box-shadow: 0 34px 100px rgba(0,0,0,.42);
+      backdrop-filter: blur(24px) saturate(140%);
       transform: translateY(22px) scale(.98);
       transition: transform .28s ease;
       display: flex;
@@ -969,8 +1024,9 @@
       gap: 18px;
       padding: clamp(18px, 3vw, 30px);
       background:
-        linear-gradient(135deg, rgba(4, 122, 115, .9), rgba(32, 61, 82, .92)),
-        linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+        radial-gradient(circle at 82% 18%, rgba(243,197,101,.2), transparent 30%),
+        linear-gradient(135deg, rgba(4, 122, 115, .7), rgba(32, 61, 82, .62)),
+        linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
       flex: 0 0 auto;
     }
 
@@ -1018,7 +1074,7 @@
 
     .agenda-summary {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       margin-bottom: 18px;
     }
@@ -1049,6 +1105,31 @@
     .agenda-modules {
       display: grid;
       gap: 12px;
+    }
+
+    .agenda-stage {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .agenda-stage-num {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold), #f6dc99);
+      font-weight: 950;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    }
+
+    .agenda-module h4 {
+      margin: 0 0 6px;
+      color: #ffffff;
+      font-size: 1.05rem;
     }
 
     .agenda-module {
@@ -1199,13 +1280,7 @@
 
     @media (max-width: 980px) {
       .topbar {
-        grid-template-columns: 1fr auto;
-      }
-
-      .nav {
-        grid-column: 1 / -1;
-        justify-content: start;
-        order: 3;
+        grid-template-columns: 1fr;
       }
 
       .session-strip,
@@ -1227,18 +1302,74 @@
 
     @media (max-width: 620px) {
       .hero {
-        min-height: 82vh;
+        min-height: 100dvh;
+        align-items: start;
         background-position: 54% center;
+      }
+
+      .hero-inner {
+        width: min(100% - 32px, 640px);
+        padding: 28px 0 18px;
+      }
+
+      .hero .eyebrow {
+        font-size: .72rem;
+        gap: 7px;
+        letter-spacing: .075em;
+      }
+
+      .hero .eyebrow::before {
+        width: 22px;
+      }
+
+      .hero h1 {
+        margin: 10px 0 12px;
+        font-size: clamp(2.45rem, 14vw, 3.75rem);
+        line-height: .94;
+      }
+
+      .hero-copy {
+        margin-bottom: 16px;
+        font-size: clamp(.98rem, 4.7vw, 1.16rem);
+        line-height: 1.42;
       }
 
       .hero-actions {
         display: grid;
+        gap: 9px;
       }
 
       .primary,
       .secondary,
       .video-trigger {
+        min-height: 42px;
+        padding: 9px 14px;
         justify-content: center;
+      }
+
+      .hero-dashboard {
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .speaker-card {
+        min-height: 0;
+        padding: 13px 14px 16px;
+      }
+
+      .speaker-card span {
+        font-size: .68rem;
+      }
+
+      .speaker-card strong {
+        margin-top: 7px;
+        font-size: clamp(1.25rem, 7.5vw, 1.65rem);
+      }
+
+      .speaker-card p {
+        margin: 6px 0 13px;
+        font-size: .9rem;
+        line-height: 1.25;
       }
 
       .section-head {
@@ -1343,16 +1474,13 @@
 </head>
 <body>
   <header class="topbar">
-    <nav class="nav" aria-label="Navegacion principal">
-      <button id="openAgendaNav" type="button">Agenda</button>
-      <a href="#modulos">Modulos</a>
-      <a href="#proceso">Proceso</a>
-      <a href="#indicadores">KPIs</a>
-      <a href="#cierre">Cierre</a>
-    </nav>
     <div class="topbar-controls">
-      <button class="control-btn reset" id="resetEvaluations" type="button">Reset evaluaciones</button>
-      <button class="control-btn" id="presentMode" type="button">Pantalla completa</button>
+      <button class="control-btn reset" id="resetEvaluations" type="button" aria-label="Resetear evaluaciones" title="Resetear evaluaciones">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v6h6"></path></svg>
+      </button>
+      <button class="control-btn" id="presentMode" type="button" aria-label="Pantalla completa" title="Pantalla completa">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5"></path><path d="M16 3h5v5"></path><path d="M21 16v5h-5"></path><path d="M3 16v5h5"></path></svg>
+      </button>
     </div>
   </header>
 
@@ -1362,7 +1490,6 @@
       <h1>Gerencia Comercial</h1>
       <p class="hero-copy">Programa de formacion orientado a comprender las responsabilidades del cargo, el perfil del puesto, la gestion integral del proceso comercial y las metricas e indicadores que determinan el exito de la gestion comercial.</p>
       <div class="hero-actions">
-        <button class="primary" id="openAgendaModal" type="button">Agenda</button>
         <a class="secondary" href="#modulos">Ver modulos</a>
         <button class="video-trigger" id="openProgramVideo" type="button"><span class="play-dot" aria-hidden="true"></span>Ver video</button>
       </div>
@@ -1409,7 +1536,12 @@
             <p>Diferencia entre vender individualmente y dirigir resultados por medio de personas, procesos y estrategia.</p>
             <span class="module-status" data-exam-status hidden></span>
           </div>
-          <a class="module-link" href="modulo-1-gerencia.html?v=mod1-current">Abrir modulo</a>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="0" aria-label="Ver agenda del modulo Gerencia">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-1-gerencia.html?v=mod1-current">Abrir modulo</a>
+          </div>
         </article>
         <article class="module-card" data-module="1">
           <div>
@@ -1418,23 +1550,40 @@
             <p>Plan comercial, gestion de ventas, desarrollo de negocios, clientes estrategicos y mercado institucional.</p>
             <span class="module-status" data-exam-status="modulo2" hidden></span>
           </div>
-          <a class="module-link" href="modulo-2-funciones.html?v=mod2-current">Abrir modulo</a>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="1" aria-label="Ver agenda del modulo Funciones del Gerente Comercial">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-2-funciones.html?v=mod2-current">Abrir modulo</a>
+          </div>
         </article>
         <article class="module-card" data-module="2">
           <div>
             <div class="module-num">III</div>
             <h3>Proceso Comercial</h3>
             <p>Ocho etapas para convertir oportunidades en relaciones comerciales sostenibles y bien coordinadas.</p>
+            <span class="module-status" data-exam-status="modulo3" hidden></span>
           </div>
-          <a class="module-link" href="modulo-3-proceso-comercial.html?v=mod3-current">Abrir modulo</a>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="2" aria-label="Ver agenda del modulo Proceso Comercial">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-3-proceso-comercial.html?v=mod3-current">Abrir modulo</a>
+          </div>
         </article>
         <article class="module-card" data-module="3">
           <div>
             <div class="module-num">IV</div>
             <h3>Liderazgo Comercial</h3>
             <p>Seguimiento, coaching, embudo, reuniones comerciales y toma de decisiones basada en informacion.</p>
+            <span class="module-status" data-exam-status="modulo4" hidden></span>
           </div>
-          <a class="module-link" href="modulo-4-liderazgo-comercial.html?v=mod4-current">Abrir modulo</a>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="3" aria-label="Ver agenda del modulo Liderazgo Comercial">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-4-liderazgo-comercial.html?v=mod4-current">Abrir modulo</a>
+          </div>
         </article>
       </div>
 
@@ -1448,63 +1597,15 @@
     <div class="agenda-dialog" role="dialog" aria-modal="true" aria-labelledby="agendaModalTitle">
       <div class="agenda-header">
         <div>
-          <div class="eyebrow">Programa de induccion</div>
-          <h2 id="agendaModalTitle">Agenda de Gerencia Comercial</h2>
-          <p>Ruta de formacion para revisar modulos y temas clave.</p>
+          <div class="eyebrow" id="agendaModalEyebrow">Agenda del modulo</div>
+          <h2 id="agendaModalTitle">Agenda del modulo</h2>
+          <p id="agendaModalCopy">Ruta de formacion para revisar temas clave.</p>
         </div>
         <button class="agenda-close" id="closeAgendaModal" type="button" aria-label="Cerrar agenda">×</button>
       </div>
       <div class="agenda-body">
-        <div class="agenda-summary">
-          <div><strong>4 modulos</strong><span>Ruta de formacion</span></div>
-          <div><strong>Final</strong><span>Cierre y conclusiones</span></div>
-        </div>
-        <div class="agenda-modules">
-          <article class="agenda-module" style="--agenda-delay: 40ms">
-            <div>
-              <h3>Modulo I: Gerencia</h3>
-              <p>Pasar de vender individualmente a dirigir resultados del equipo.</p>
-              <ul>
-                <li>Evolucion profesional: de ejecutor a estratega.</li>
-                <li>Diferencia entre funciones operativas y estrategicas.</li>
-                <li>Pensamiento estrategico, liderazgo de resultados y cinco pilares de la gerencia comercial.</li>
-              </ul>
-            </div>
-          </article>
-          <article class="agenda-module" style="--agenda-delay: 110ms">
-            <div>
-              <h3>Modulo II: Funciones del Gerente Comercial</h3>
-              <p>Clarificar responsabilidades estrategicas, tacticas y de supervision.</p>
-              <ul>
-                <li>Planificacion y direccion comercial.</li>
-                <li>Gestion de ventas, embudo e indicadores.</li>
-                <li>Desarrollo de negocios, clientes estrategicos, licitaciones y coordinacion interna.</li>
-              </ul>
-            </div>
-          </article>
-          <article class="agenda-module" style="--agenda-delay: 180ms">
-            <div>
-              <h3>Modulo III: Proceso Comercial</h3>
-              <p>Entender las etapas que convierten oportunidades en relaciones comerciales.</p>
-              <ul>
-                <li>Prospeccion, contacto inicial y diagnostico.</li>
-                <li>Presentacion de solucion, manejo de objeciones y cierre.</li>
-                <li>Compilado de informacion, coordinacion interna y postventa.</li>
-              </ul>
-            </div>
-          </article>
-          <article class="agenda-module" style="--agenda-delay: 250ms">
-            <div>
-              <h3>Modulo IV: Liderazgo Comercial</h3>
-              <p>Gestionar equipo, seguimiento, indicadores y decisiones con datos.</p>
-              <ul>
-                <li>Liderazgo comercial y administracion del desempeno.</li>
-                <li>Indicadores clave: ventas, clientes, embudo y productividad.</li>
-                <li>Reuniones de seguimiento, coaching comercial y decisiones basadas en datos.</li>
-              </ul>
-            </div>
-          </article>
-        </div>
+        <div class="agenda-summary" id="agendaSummary"></div>
+        <div class="agenda-modules" id="agendaModules"></div>
       </div>
     </div>
   </div>
@@ -1575,7 +1676,7 @@
 
     const moduleOneExam = (() => {
       try {
-        return JSON.parse(localStorage.getItem("induccion.modulo1.exam.v2") || "null");
+        return JSON.parse(localStorage.getItem("induccion.modulo1.exam.v3") || "null");
       } catch (error) {
         return null;
       }
@@ -1590,8 +1691,10 @@
     }
 
     const examStatusKeys = {
-      modulo1: "induccion.modulo1.exam.v2",
-      modulo2: "induccion.modulo2.exam.v1"
+      modulo1: "induccion.modulo1.exam.v3",
+      modulo2: "induccion.modulo2.exam.v2",
+      modulo3: "induccion.modulo3.exam.v1",
+      modulo4: "induccion.liderazgo-comercial.exam.v1"
     };
 
     document.querySelectorAll("[data-exam-status]").forEach((statusBadge, index) => {
@@ -1626,24 +1729,169 @@
       showToast("Evaluaciones reseteadas");
     });
 
-    document.getElementById("presentMode").addEventListener("click", async () => {
-      document.body.classList.toggle("presenting");
-      if (!document.fullscreenElement && document.body.classList.contains("presenting")) {
+    const presentModeButton = document.getElementById("presentMode");
+    const presentationModeKey = "induccion.presentationMode.active";
+    const presentationNavigationKey = "induccion.presentationMode.navigating";
+
+    function wantsPresentationMode() {
+      return localStorage.getItem(presentationModeKey) === "true";
+    }
+
+    function updatePresentModeLabel() {
+      const active = Boolean(document.fullscreenElement) || wantsPresentationMode();
+      presentModeButton.title = active ? "Salir de pantalla completa" : "Pantalla completa";
+      presentModeButton.setAttribute("aria-label", presentModeButton.title);
+    }
+
+    function armPresentationResume() {
+      const resume = async () => {
+        if (!wantsPresentationMode() || document.fullscreenElement) return;
         try {
           await document.documentElement.requestFullscreen();
         } catch (error) {
-          showToast("Modo presentacion activado");
+          return;
         }
-      } else if (document.fullscreenElement && !document.body.classList.contains("presenting")) {
+        updatePresentModeLabel();
+      };
+      window.addEventListener("pointerdown", resume, { once: true });
+      window.addEventListener("keydown", resume, { once: true });
+    }
+
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest("a[href]");
+      if (!link || !wantsPresentationMode()) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin === window.location.origin) {
+        sessionStorage.setItem(presentationNavigationKey, "true");
+      }
+    }, true);
+
+    async function setPresentationMode(active, fromUser = false) {
+      localStorage.setItem(presentationModeKey, active ? "true" : "false");
+      document.body.classList.toggle("presenting", active);
+
+      if (active && !document.fullscreenElement) {
+        try {
+          await document.documentElement.requestFullscreen();
+        } catch (error) {
+          armPresentationResume();
+          if (fromUser) showToast("Modo presentacion activado");
+        }
+      }
+
+      if (!active && document.fullscreenElement) {
         await document.exitFullscreen();
       }
+
+      updatePresentModeLabel();
+    }
+
+    presentModeButton.addEventListener("click", () => {
+      setPresentationMode(!wantsPresentationMode(), true);
     });
 
+    document.addEventListener("fullscreenchange", () => {
+      const navigating = sessionStorage.getItem(presentationNavigationKey) === "true";
+      if (!document.fullscreenElement && wantsPresentationMode() && document.body.classList.contains("presenting") && !navigating) {
+        localStorage.setItem(presentationModeKey, "false");
+        document.body.classList.remove("presenting");
+      }
+      updatePresentModeLabel();
+    });
+
+    if (wantsPresentationMode()) {
+      document.body.classList.add("presenting");
+      armPresentationResume();
+    }
+    updatePresentModeLabel();
+    window.setTimeout(() => sessionStorage.removeItem(presentationNavigationKey), 900);
+
     const agendaModal = document.getElementById("agendaModal");
-    const openAgendaModal = document.getElementById("openAgendaModal");
-    const openAgendaNav = document.getElementById("openAgendaNav");
     const closeAgendaModal = document.getElementById("closeAgendaModal");
+    const agendaModalEyebrow = document.getElementById("agendaModalEyebrow");
+    const agendaModalTitle = document.getElementById("agendaModalTitle");
+    const agendaModalCopy = document.getElementById("agendaModalCopy");
+    const agendaSummary = document.getElementById("agendaSummary");
+    const agendaModules = document.getElementById("agendaModules");
+    let activeAgendaTrigger = null;
     let lockedScrollY = 0;
+
+    const moduleAgendas = [
+      {
+        eyebrow: "Modulo I",
+        title: "Gerencia",
+        copy: "Transicion de vendedor exitoso a Gerente Comercial: un cambio de mentalidad, responsabilidad y alcance directivo.",
+        summary: [
+          ["Objetivo", "Comprender la transicion hacia una funcion gerencial."],
+          ["Enfoque", "Liderazgo, estrategia y resultados sostenibles."],
+          ["Evaluacion", "Preguntas sobre cambio de rol y pilares gerenciales."]
+        ],
+        items: [
+          ["Objetivo e introduccion", "Por que vender bien no garantiza dirigir bien; cambio profundo de mentalidad hacia liderazgo, planificacion y crecimiento sostenible."],
+          ["Evolucion profesional", "De ejecutor a estratega: de administrar oportunidades propias a construir condiciones para que el equipo venda mejor."],
+          ["Operativo vs. estrategico", "Diferenciar llamadas, visitas, cotizaciones y cierres de metas, estrategias, indicadores, recursos y talento."],
+          ["Pensamiento estrategico", "Analizar entorno, clientes, competencia, tecnologia, riesgos y oportunidades para anticipar resultados futuros."],
+          ["Liderazgo y cultura gerencial", "Liderazgo situacional, autoridad formal, influencia real, motivacion y cinco pilares de la gerencia comercial."]
+        ]
+      },
+      {
+        eyebrow: "Modulo II",
+        title: "Funciones del Gerente Comercial",
+        copy: "Responsabilidades del puesto para dirigir ventas, mercados, clientes, talento, procesos institucionales y resultados.",
+        summary: [
+          ["Objetivo", "Clarificar funciones y alcance del cargo."],
+          ["Enfoque", "Direccion comercial integral."],
+          ["Evaluacion", "Preguntas sobre responsabilidades clave."]
+        ],
+        items: [
+          ["Objetivo e introduccion", "Comprender el rol del Gerente Comercial como responsable de organizar, dirigir, supervisar y mejorar la gestion comercial."],
+          ["Planificacion comercial", "Definir metas, presupuesto, estrategias, prioridades, recursos y seguimiento para orientar el crecimiento."],
+          ["Gestion de ventas", "Supervisar embudo, oportunidades, propuestas, cierres, cumplimiento de metas, desviaciones y acciones correctivas."],
+          ["Desarrollo de negocios", "Identificar segmentos, mercados, alianzas, oportunidades institucionales y crecimiento de cartera."],
+          ["Clientes estrategicos e institucionales", "Administrar relaciones clave, licitaciones, clientes activos, recuperacion, fidelizacion y coordinacion interna."],
+          ["Talento comercial", "Reclutar, inducir, capacitar, supervisar politicas, administrar recursos y fortalecer competencias del equipo."]
+        ]
+      },
+      {
+        eyebrow: "Modulo III",
+        title: "Proceso Comercial",
+        copy: "Sistema de ocho etapas para generar, administrar, convertir y fidelizar oportunidades de negocio de KONFI.",
+        summary: [
+          ["Objetivo", "Dominar el proceso comercial completo."],
+          ["Enfoque", "8 etapas coordinadas."],
+          ["Evaluacion", "Preguntas por etapa y rol gerencial."]
+        ],
+        items: [
+          ["1 - Prospeccion", "Definir perfil ideal, investigar mercado, segmentar, calificar bases y agendar reuniones de diagnostico."],
+          ["2 - Contacto inicial", "Generar confianza, interes y apertura con mensaje, canal y seguimiento adecuados."],
+          ["3 - Deteccion de necesidades", "Comprender necesidades funcionales, esteticas, logisticas, presupuestarias y de decision."],
+          ["4 - Presentacion de solucion", "Convertir diagnostico en propuesta de valor con beneficios, diferenciadores, condiciones y claridad comercial."],
+          ["5 - Manejo de objeciones", "Escuchar, clasificar, responder y convertir dudas en confianza para avanzar."],
+          ["6 - Cierre de ventas", "Formalizar condiciones, cantidades, especificaciones, plazos, compromisos y documentacion."],
+          ["7 - Compilado de informacion", "Transferir datos completos a produccion y administracion para evitar errores y reprocesos."],
+          ["8 - Postventa", "Confirmar satisfaccion, atender reclamos, impulsar recompra, referidos y relaciones de largo plazo."]
+        ]
+      },
+      {
+        eyebrow: "Modulo IV",
+        title: "Liderazgo Comercial",
+        copy: "Liderazgo, seguimiento e indicadores para transformar informacion en decisiones y decisiones en resultados.",
+        summary: [
+          ["Objetivo", "Dirigir desempeno con datos."],
+          ["Enfoque", "14 laminas + video Gestion Comercial."],
+          ["Evaluacion", "Preguntas sobre seguimiento e indicadores."]
+        ],
+        items: [
+          ["Objetivo e introduccion", "Fortalecer competencias para liderar personas, dar seguimiento efectivo, administrar indicadores y decidir con informacion."],
+          ["Liderazgo comercial", "Dirigir, influir, orientar y desarrollar al equipo con direccion, acompanamiento y control."],
+          ["Seguimiento y reuniones", "Revisar actividades, oportunidades, bloqueos, compromisos semanales y resultados mensuales."],
+          ["Indicadores comerciales", "Gestionar resultados, embudo, clientes, productividad, postventa y calidad comercial."],
+          ["Power BI y herramientas", "Centralizar informacion, visualizar tendencias, comparar vendedores, segmentos y oportunidades activas."],
+          ["Decisiones y mejora continua", "Usar datos para planes de accion con problema, indicador, causa, accion, responsable, fecha y seguimiento."],
+          ["Cultura de resultados", "Crear disciplina de objetivos claros, medicion constante, reconocimiento, correccion y prioridades visibles."]
+        ]
+      }
+    ];
 
     function lockPageScroll() {
       lockedScrollY = window.scrollY;
@@ -1657,7 +1905,30 @@
       window.scrollTo(0, lockedScrollY);
     }
 
-    function showAgendaModal() {
+    function renderAgenda(index) {
+      const agenda = moduleAgendas[index] || moduleAgendas[0];
+      agendaModalEyebrow.textContent = agenda.eyebrow;
+      agendaModalTitle.textContent = agenda.title;
+      agendaModalCopy.textContent = agenda.copy;
+      agendaSummary.innerHTML = agenda.summary.map(([value, label]) => `
+        <div><strong>${value}</strong><span>${label}</span></div>
+      `).join("");
+      agendaModules.innerHTML = agenda.items.map(([title, copy], itemIndex) => `
+        <article class="agenda-module" style="--agenda-delay: ${40 + itemIndex * 55}ms">
+          <div class="agenda-stage">
+            <span class="agenda-stage-num">${String(itemIndex + 1).padStart(2, "0")}</span>
+            <div>
+              <h4>${title}</h4>
+              <p>${copy}</p>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function showAgendaModal(index, trigger) {
+      activeAgendaTrigger = trigger || null;
+      renderAgenda(index);
       agendaModal.classList.add("open");
       lockPageScroll();
       agendaModal.setAttribute("aria-hidden", "false");
@@ -1670,11 +1941,15 @@
       if (!programVideoModal.classList.contains("open")) {
         unlockPageScroll();
       }
-      openAgendaModal.focus();
+      activeAgendaTrigger?.focus();
     }
 
-    openAgendaModal.addEventListener("click", showAgendaModal);
-    openAgendaNav.addEventListener("click", showAgendaModal);
+    document.querySelectorAll("[data-open-agenda]").forEach((button) => {
+      button.addEventListener("click", () => {
+        showAgendaModal(Number(button.dataset.openAgenda), button);
+      });
+    });
+
     closeAgendaModal.addEventListener("click", hideAgendaModal);
 
     agendaModal.addEventListener("click", (event) => {
