@@ -87,12 +87,42 @@ body.motion-ready::before {
 }
 
 .module-nav a {
+  min-height: 40px;
   color: var(--white);
   text-decoration: none;
   border: 1px solid rgba(255,255,255,.22);
   border-radius: var(--radius);
   padding: 9px 12px;
   background: rgba(255,255,255,.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.module-nav a:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.34);
+  box-shadow: 0 14px 28px rgba(0,0,0,.16);
+}
+
+.module-nav a svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.module-nav a svg *,
+.module-nav button svg * {
+  fill: none !important;
+  stroke: currentColor !important;
+  vector-effect: non-scaling-stroke;
 }
 
 .module-nav button {
@@ -2044,8 +2074,51 @@ body.lesson-fullscreen {
 
 @media (max-width: 620px) {
   .module-nav {
-    justify-content: flex-start;
+    justify-content: flex-end;
     overflow-x: auto;
+    gap: 6px;
+    padding: 10px 12px 0;
+  }
+
+  .module-nav a {
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    justify-content: center;
+    padding: 0;
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(12px);
+  }
+
+  .module-nav a span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .module-nav a svg,
+  .module-nav button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .module-nav button {
+    width: 42px;
+    height: 42px;
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(12px);
+  }
+
+  .module-hero-inner {
+    padding-top: 34px;
+  }
+
+  .module-hero h1 {
+    font-size: clamp(2.4rem, 15vw, 4.1rem);
+    line-height: .96;
   }
 
   .module-hero {
@@ -2053,7 +2126,7 @@ body.lesson-fullscreen {
   }
 
   .module-hero-inner {
-    padding: 52px 0;
+    padding: 42px 0 52px;
   }
 
   .content-grid,
